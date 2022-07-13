@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 # set app config uri to postgres
@@ -9,8 +11,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+cors = CORS(app)
 
-import qa_models
+# Create the database tables.
+# db.create_all()
 
 
 @app.route('/')
@@ -18,5 +22,20 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
+# delete later
+from datetime import datetime
+# Route for seeing a data
+@app.route('/data')
+def get_time():
+    # Returning an api for showing in  reactjs
+    return {
+        'Name': "geek",
+        "Age": "22",
+        "Date": 10,
+        "programming": "python"
+    }
+
+
 if __name__ == '__main__':
+    print('Type', type(app))
     app.run()

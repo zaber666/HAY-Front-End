@@ -1,5 +1,4 @@
 from app import db
-from models import *
 
 # many-to-many relationship TestQuestion  between Test and Question
 TestQuestion = db.Table('test_question',

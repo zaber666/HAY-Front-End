@@ -2,7 +2,7 @@ from app import db
 
 
 # extend db.Model to create Person with name, email, password_hash, dob, gender, phone_number, photo_path, and role
-
+#
 class Person(db.Model):
     __tablename__ = 'persons'
     person_id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +27,7 @@ class Patient(Person):
 class Psychiatrist(Person):
     __tablename__ = 'psychiatrists'
     psychiatrist_id = db.Column(db.Integer, db.ForeignKey('persons.person_id'), primary_key=True) # foreign key to person_id
-    psychiatrist = db.relationship('Person', backref=db.backref('psychiatrist', uselist=False))
+    # psychiatrist = db.relationship('Person', backref=db.backref('psychiatrist', uselist=False))
     is_verified = db.Column(db.Boolean, default=False)
     available_times = db.Column(db.String(256))
 
