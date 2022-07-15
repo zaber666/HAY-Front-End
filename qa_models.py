@@ -67,5 +67,7 @@ Answer = db.Table('answer',
 CounsellingSuggestion = db.Table('counselling_suggestion',
                                  db.Column('test_result_id', db.Integer, db.ForeignKey('test_results.test_result_id'), primary_key=True),
                                  db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True)
-                                 );
+                                 )
+
+
 
