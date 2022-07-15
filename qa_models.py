@@ -64,6 +64,7 @@ class TestResult(db.Model):
     # relationship with Test table
     test = db.relationship('Test')
     options = db.relationship('Option', secondary=Answer, lazy='dynamic')
+    score = db.Column(db.Integer, default=0)
 
 
 CounsellingSuggestion = db.Table('counselling_suggestion',

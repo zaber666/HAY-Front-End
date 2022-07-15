@@ -19,4 +19,5 @@ manager.create_api(TestResult, methods=['GET', 'POST', 'PATCH'], collection_name
 
 manager.init_app(app)
 
+db.create_all()
 app.run(debug=True, host='0.0.0.0')

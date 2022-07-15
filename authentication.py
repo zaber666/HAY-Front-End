@@ -97,19 +97,21 @@ def generic_login(user_type, auth):
 
 @app.route('/login', methods=['POST'])
 def login():
-    auth = request.form
+    auth = request.get_json(force=True)
     return generic_login('Person', auth)
 
 
 @app.route('/patient_login', methods=['POST'])
 def patient_login():
-    auth = request.form
+    auth = request.get_json(force=True)
+    # print(auth)
     return generic_login('Patient', auth)
 
 
 @app.route('/psychiatrist_login', methods=['POST'])
 def psychiatrist_login():
-    auth = request.form
+    auth = request.get_json(force=True)
+    # print(auth)
     return generic_login('Psychiatrist', auth)
 
 

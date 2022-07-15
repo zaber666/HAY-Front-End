@@ -1,8 +1,7 @@
-from app import app
+from app import app, db
 from qa_models import *
 
 """
-
     This file contains the code for the questionnaire.
     
     POST code creating test_result 
@@ -27,7 +26,7 @@ from qa_models import *
         "type": "tr",
         "attributes": {
           "test_id": 2,
-          "patient_id": 1705017,
+          "patient_id": 1705008,
           "submitted_at": "2022-2-1 01:00"
         },
         "relationships": {
@@ -42,7 +41,7 @@ from qa_models import *
                         "type": "options"
                     },
                     {
-                        "id": "91",
+                        "id": "92",
                         "type": "options"
                     },
                     {
@@ -70,9 +69,22 @@ from qa_models import *
             }
         }
     }
-
-
-
-
-
 """
+
+
+def calculate_score(test_result_id, **kwargs):
+    """
+        Calculate the score of a test result.
+        The score is the sum of the scores of the options.
+    """
+    print(test_result_id)
+    test_result = TestResult.query.filter_by(test_result_id=test_result_id).first()
+    score = 0
+    print(test_result.options)
+    for option in test_result.options:
+        print(option.option_id)
+        score += option.score
+    test_result.score = score   # update the score in the database
+    db.session.commit()
+    return score
+
