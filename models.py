@@ -1,3 +1,4 @@
+from enum import unique
 from app import db
 
 
@@ -7,7 +8,7 @@ class Person(db.Model):
     __tablename__ = 'persons'
     person_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
-    email = db.Column(db.String(64))
+    email = db.Column(db.String(64), unique = True)
     password_hash = db.Column(db.String(256))
     date_of_birth = db.Column(db.DateTime)
     gender = db.Column(db.String(1))
