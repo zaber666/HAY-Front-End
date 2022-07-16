@@ -29,5 +29,11 @@
 }
 
 .radio{
-    margin-left: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.optionText{
+    margin-left: 15%;
+    margin-right: 15%;
 }

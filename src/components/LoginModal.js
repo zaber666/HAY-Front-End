@@ -1,6 +1,7 @@
 import React from 'react'
 import "./LoginModal.css"
 import {useState} from 'react'
+import {setToken, setIdType, setPersonId, setUsername} from './Variables.js';
 
 
 
@@ -9,36 +10,33 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
 
     // POST Request for login
     const promptLogin = async (loginInfo) => {
-        const res = await fetch('http://localhost:8000/login-info', 
+        const res = await fetch(isPatient? '/patient_login' : '/psychiatrist_login',
             {
                 method: "POST", 
-                headers: {'Content-type': 'application/json'}, 
+                headers: {'Content-type': 'application/vnd.api+json', 'Accept': 'application/vnd.api+json'},
                 body: JSON.stringify(loginInfo)
             }
-        )
+        );
         const data = await res.json()
+        setToken(data[0]['token'])
+        setIdType(data[1]['id_name'])
+        setPersonId(data[2]['person_id'])
+        setUsername(data[3]['name'])
     }
 
     // POST request for sign up
     const promptSignup = async (signupInfo) => {
-        const res = await fetch('http://localhost:8000/signup-info', 
+        console.log('signupInfo', signupInfo)
+        const res = await fetch(isPatient ? '/signup/1' : '/signup/2',
             {
-                method: "POST", 
-                headers: {'Content-type': 'application/json'}, 
+                method: "POST",
+                headers: {'Content-type': 'application/vnd.api+json', 'Accept': 'application/vnd.api+json'},
                 body: JSON.stringify(signupInfo)
             }
         )
         const data = await res.json()
+        console.log(data)
     }
-
-
-
-
-
-
-
-
-
 
     const [isPatient, setIsPatient] = useState(true)
 
@@ -239,10 +237,8 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
 
                 )   : 
                 (
-                    <div className='modal' onSubmit={onLoginSubmit}> 
-        
-
-                        <form className='modal-content animate'>
+                    <div className='modal' >
+                        <form className='modal-content animate' onSubmit={onLoginSubmit}>
                             <div className='imgcontainer'>
                                 <span className="close" title="Close Modal" onClick={changeLoginModalFn}>&times;</span>
                             </div>

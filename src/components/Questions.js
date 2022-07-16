@@ -13,7 +13,6 @@ const Questions = () => {
         const questionsFromServer = await fetchQuestions()
         setQuestions(questionsFromServer)
         }
-
         getQuestions()
     }, [])
 
@@ -74,8 +73,6 @@ const Questions = () => {
     return (
         <div className='container'>
             <form onSubmit={formSubmit}>
-
-            
                 {
                     questions.map(
                         (question) => (
@@ -84,8 +81,6 @@ const Questions = () => {
                                     <div className='questionId'>{question.id}.</div>
                                     <div className='questionText'>{question.questionText}</div>
                                 </div>
-                                
-
                                 <div>
                                     {
                                         question.options.map(
