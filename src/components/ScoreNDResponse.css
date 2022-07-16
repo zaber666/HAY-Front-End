@@ -1,0 +1,83 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+.conatiner{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    margin-top: 5%;
+    margin-left: 8%;
+}
+
+.tests-body{
+    font-size: 1rem;
+}
+
+.test-name {
+    color: #2b9dfa;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 1.5%;
+}
+
+.line-psy{
+    width: 75%;
+    margin-left: 0%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+
+
+.content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    width: 75%;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .content-table thead tr {
+    background-color: rgb(36, 40, 43);
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .content-table th,
+  .content-table td {
+    padding: 12px 15px;
+  }
+  
+  .content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+  
+  
+  
+  .content-table tbody tr:last-of-type {
+    border-bottom: 2px solid black;
+  }
+  
+  .content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+  }
+
+
+
+  td, th
+  {
+    text-align: center; 
+    vertical-align: middle;
+  }
+
+
+.response-text:hover{
+    /* font-size: 1.05rem; */
+    font-weight: 300;
+    cursor: pointer;
+    color: #2b9dfa;
+}
