@@ -1,9 +1,29 @@
 import React from 'react'
 import "./Tests.css"
-import Test from './Test'
+import { useState, useEffect } from 'react'
 
 
-const Tests = ({tests}) => {
+const Tests = () => {
+
+    const [specificTests, setSpecificTests] = useState([])
+
+    useEffect( () => {
+        const getTests = async () => {
+        const testsFromServer = await fetchTests()
+        setSpecificTests(testsFromServer)
+        }
+
+        getTests()
+    }, [])
+
+    //Fetch Tasks
+    const fetchTests = async () => {
+        const res = await fetch('http://localhost:8000/specificTests')
+        const data = await res.json()
+        return data
+    }
+
+
     return (
         <div className='tests-body'>
             <span className='topic-header'>General Questionnaire</span>
@@ -15,7 +35,17 @@ const Tests = ({tests}) => {
             <div className='topic-header spaced'>Specific Questionnaire</div>
             <hr className='line'></hr>
 
-            {tests.map( (test) => (<Test key={test.id} test={test.testName} description={test.description} />))}
+            {
+                specificTests.map(
+                    (test) => (
+                        <>
+                            <div className="test-name">{test.testName}</div>
+                            <div class="test-desc">{test.description}</div>
+                        </>
+                    )
+                )
+            }
+            
         </div>
     )
 }

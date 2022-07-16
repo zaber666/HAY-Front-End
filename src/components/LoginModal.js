@@ -4,7 +4,41 @@ import {useState} from 'react'
 
 
 
-const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, isSignUp, closeSignupModalFn}) => {
+const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignupModalFn}) => {
+
+
+    // POST Request for login
+    const promptLogin = async (loginInfo) => {
+        const res = await fetch('http://localhost:8000/login-info', 
+            {
+                method: "POST", 
+                headers: {'Content-type': 'application/json'}, 
+                body: JSON.stringify(loginInfo)
+            }
+        )
+        const data = await res.json()
+    }
+
+    // POST request for sign up
+    const promptSignup = async (signupInfo) => {
+        const res = await fetch('http://localhost:8000/signup-info', 
+            {
+                method: "POST", 
+                headers: {'Content-type': 'application/json'}, 
+                body: JSON.stringify(signupInfo)
+            }
+        )
+        const data = await res.json()
+    }
+
+
+
+
+
+
+
+
+
 
     const [isPatient, setIsPatient] = useState(true)
 
@@ -35,7 +69,7 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
             return
         }
 
-        onLogin({email, password})
+        promptLogin({email, password})
 
         setEmail('')
         setPassword('')
@@ -89,7 +123,8 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
             }
         }
 
-        onSignup({personType, name, email_, password_, dob, gender, height, weight, location, certificateId})
+        promptSignup({personType, name, email_, password_, dob, gender, height, weight, location, certificateId})
+
         setPersonType("patient")
         setIsPatient(true)
         setName("")
