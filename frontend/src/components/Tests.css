@@ -1,0 +1,49 @@
+
+
+
+.line{
+    width: 60%;
+    margin-left: 0%;
+    margin-top: 1%;
+}
+
+.line-psy{
+    width: 60%;
+    margin-left: 0%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.test-name {
+    color: #2b9dfa;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 1.5%;
+}
+.test-name:hover {
+    cursor: pointer;
+}
+.test-desc {
+    font-size: small;
+    padding-top: 5px;
+}
+.test-desc:hover {
+    cursor: pointer;
+}
+
+.tests-body{
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    height: 60%;
+    margin-top: 5%;
+    margin-left: 10%;
+}
+
+.topic-header{
+    font-size: 1.6rem; 
+    font-weight: 500;
+}
+
+.spaced{
+    margin-top: 10%;
+}

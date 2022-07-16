@@ -117,7 +117,7 @@ def psychiatrist_login():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    data = request.form
+    data = request.get_json(force=True)
     name, email = data.get('name'), data.get('email')
     password = data.get('password')
 
@@ -143,7 +143,7 @@ def d(_):
 
 @app.route('/patient_signup', methods=['POST'])
 def patient_signup():
-    data = request.form
+    data = request.get_json(force=True)
     name, email = data.get('name'), data.get('email')
     password = data.get('password')
     height_inches = data.get('height_inches')
