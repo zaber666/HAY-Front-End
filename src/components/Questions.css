@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.container{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    margin-top: 5%;
+    margin-left: 8%;
+}
+
+.questionTextContainer{
+    display: flex;
+    margin-top: 2%;
+}
+
+.questionId{
+    font-weight: 800;
+    margin-left: 1%;
+    margin-right: 2%;
+}
+.optionContainer{
+    display: flex;
+    margin-top: 0.5%;
+}
+
+.optionId{
+    font-weight: 800;
+    margin-left: 5%;
+    margin-right: 2%;
+}
+
+.radio{
+    margin-left: 5%;
+}

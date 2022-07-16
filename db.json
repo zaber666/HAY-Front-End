@@ -1,0 +1,102 @@
+{
+  "login-info": {
+    "email": "1",
+    "password": "1"
+  },
+  "signup-info": {
+    "personType": "patient",
+    "name": "zaber",
+    "email_": "zb@gmail.com",
+    "password_": "11",
+    "dob": "12-12-2012",
+    "gender": "male",
+    "height": "80",
+    "weight": "50",
+    "location": "dhaka",
+    "certificateId": ""
+  },
+  "questions": [
+    {
+      "id": 1,
+      "questionText": "What are you?",
+      "options": [
+        {
+          "id": 1,
+          "value": "human"
+        },
+        {
+          "id": 2,
+          "value": "dog"
+        },
+        {
+          "id": 3,
+          "value": "cat"
+        },
+        {
+          "id": 4,
+          "value": "panda"
+        },
+        {
+          "id": 5,
+          "value": "bird"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "questionText": "What do you eat?",
+      "options": [
+        {
+          "id": 1,
+          "value": "Rice"
+        },
+        {
+          "id": 2,
+          "value": "Meat"
+        },
+        {
+          "id": 3,
+          "value": "Veggies"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "questionText": "What did you go?",
+      "options": [
+        {
+          "id": 1,
+          "value": "Home"
+        },
+        {
+          "id": 2,
+          "value": "School"
+        },
+        {
+          "id": 3,
+          "value": "Market"
+        },
+        {
+          "id": 4,
+          "value": "Park"
+        }
+      ]
+    }
+  ],
+  "answers": [
+    [
+      {
+        "quesId": "1",
+        "ansId": "4"
+      },
+      {
+        "quesId": "3",
+        "ansId": "3"
+      },
+      {
+        "quesId": "2",
+        "ansId": "3"
+      }
+    ]
+  ]
+}
