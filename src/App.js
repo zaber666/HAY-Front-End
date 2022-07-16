@@ -8,47 +8,53 @@ import LoginModal from './components/LoginModal';
 import {useState, useEffect} from "react";
 import LogoutModal from './components/LogoutModal';
 import Tests from './components/Tests';
-import { useCookies, Cookies, withCookies} from "react-cookie";
+import {useCookies, Cookies, withCookies} from "react-cookie";
+import {BrowserRouter as Router, Route, Routes, Switch, useParams} from 'react-router-dom'
 import PsyHome from './components/PsyHome';
 import Questions from './components/Questions';
 import {ListQuestionsOfATest} from "./components/Questionnaire";
 
 function App() {
 
-  const userLoggedIn = false;
-  const [showLoginModal, changeLoginModal] = useState(false);
-  const [showLogoutModal, changeLogoutModal] = useState(false);
-  const [signupModal, changeSignupModal] = useState(false);
+    const userLoggedIn = false;
+    const [showLoginModal, changeLoginModal] = useState(false);
+    const [showLogoutModal, changeLogoutModal] = useState(false);
+    const [signupModal, changeSignupModal] = useState(false);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
+    function RenderTest() {
+        return <ListQuestionsOfATest testId={useParams().testId}/>
+    }
 
-  return (
+    return (
 
+        <Router>
+            <div>
+                <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={(getPersonId() !== '')}
+                        cngLogoutModalFn={() => changeLogoutModal(true)}/>
 
-    <div>
-      <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={(getPersonId() !== '')} cngLogoutModalFn={() => changeLogoutModal(true)}  />
-      
-      {(getPersonId() !== '') ? (<Tests />) : (<Talks changeModalFn={() => changeLoginModal(true)} />
-      )}
+                <Routes>
 
-        {/*<button onClick={() => setCookie('Name', getUsername(), {path : '/'})}> Cookie </button>*/}
-        {/*<button onClick={() => removeCookie('Name')}> Remove Cookie </button>*/}
-        {/*<button onClick={() => console.log(cookies.get('Name'))}> Print </button>*/}
+                    <Route path="/login" element={<LoginModal changeLoginModalFn={() => changeLoginModal(false)}
+                                                         cngSignupModalFn={() => changeSignupModal(true)}
+                                                         closeSignupModalFn={() => changeSignupModal(false)}
+                                                         isSignUp={signupModal}/>}/>
 
-      {showLoginModal && <LoginModal changeLoginModalFn={() => changeLoginModal(false)} cngSignupModalFn={() => changeSignupModal(true)} closeSignupModalFn={() => changeSignupModal(false)} isSignUp={signupModal}  />}
-      
-      {showLogoutModal && <LogoutModal cngLogoutModalFn={() => changeLogoutModal(false)}/>}
+                    <Route path="/logout" element={<LogoutModal changeLogoutModalFn={() => changeLogoutModal(false)}/>}/>
 
-      {/*{ <PsyHome /> }*/}
+                    <Route path="/tests" element={<Tests/>}/>
+                    <Route path="/tests/:testId" element={<RenderTest/>} />
+                    <Route path="/psyhome" element={<PsyHome/>}/>
+                    <Route path="/questions" element={<Questions/>}/>
+                    <Route path={"/"} element=<Talks changeModalFn={() => changeLoginModal(true)}/> />
 
-      {/* <Questions /> */}
+                </Routes>
 
-        {/*{<ListQuestionsOfATest testId={2}/>}*/}
-      
-      <Footer />
-    </div>
-  );
+                <Footer/>
+            </div>
+        </Router>
+    );
 }
 
 export default App;

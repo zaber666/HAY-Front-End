@@ -2,26 +2,35 @@ import React from 'react'
 import "./LoginModal.css"
 import {useState} from 'react'
 import {setToken, setIdType, setPersonId, setUsername} from './Variables.js';
+import {useNavigate} from "react-router-dom";
 
 
 
 const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignupModalFn}) => {
 
+    const navigate = useNavigate();
 
     // POST Request for login
     const promptLogin = async (loginInfo) => {
         const res = await fetch(isPatient? '/patient_login' : '/psychiatrist_login',
             {
-                method: "POST", 
+                method: "POST",
                 headers: {'Content-type': 'application/vnd.api+json', 'Accept': 'application/vnd.api+json'},
                 body: JSON.stringify(loginInfo)
             }
         );
-        const data = await res.json()
-        setToken(data[0]['token'])
-        setIdType(data[1]['id_name'])
-        setPersonId(data[2]['person_id'])
-        setUsername(data[3]['name'])
+        try {
+            const data = await res.json()
+            setToken(data[0]['token'])
+            setIdType(data[1]['id_name'])
+            setPersonId(data[2]['person_id'])
+            setUsername(data[3]['name'])
+            return true
+        } catch (error) {
+            console.log(error)
+            alert('Unsuccessful Login')
+            return false
+        }
     }
 
     // POST request for sign up
@@ -67,12 +76,18 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
             return
         }
 
-        promptLogin({email, password})
+        promptLogin({email, password}).then((e) => {
+            if(e) {
+                navigate('/tests')
+            }
+            else
+                navigate('/login')
+        })
 
         setEmail('')
         setPassword('')
 
-        changeLoginModalFn()
+
     }
 
     const onSignUpSubmit = (e) => {

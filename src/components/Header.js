@@ -2,8 +2,12 @@ import React from 'react'
 import logo from './logo.png'
 import './Header.css'
 import {getUsername} from "./Variables";
+import {useNavigate} from "react-router-dom";
 
 const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
+
+    const navigate = useNavigate();
+
     return (
         <div className='header'>
             <div style={{width: "30%"}}>
@@ -21,7 +25,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
             </div>
 
             <div style={{width: "30%"}} className='header-right'>
-                {loggedIn ? (<div className='rad-box-name' onClick={cngLogoutModalFn}> {getUsername()}</div>) : (<div className='login-btn' onClick={changeLoginModalFn}> Login</div>)}
+                {loggedIn ? (<div className='rad-box-name' onClick={cngLogoutModalFn}> {getUsername()}</div>) : (<div className='login-btn' onClick={() => {navigate('/login')}}> Login</div>)}
                 
                 {loggedIn ? (<div className='rad-box'>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
             </div>

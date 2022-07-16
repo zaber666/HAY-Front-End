@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import "./Questions.css"
 import ReactDOM from 'react-dom';
 import {questionnaire_post_response} from "./Variables";
+import {useNavigate} from "react-router-dom";
 
 const callRestApi = async (restEndpoint) => {
     const response = await fetch(restEndpoint, {method: "GET", headers: {'Accept': 'application/vnd.api+json'}});
@@ -43,8 +44,8 @@ export function OptionText(props) {
     }, []);
 
      return (
-         <div className="form-check form-check-inline">
-             <input className="form-check-input" type="radio" className='radio' name={props.questionId} value={apiResponse.option_id}
+         <div className="form-check form-check">
+             <input className="radio" type="radio"  name={props.questionId} value={apiResponse.option_id}
                 onClick={() => {options[props.questionId] = props.optionId; console.log(options)}}/>
                  <label className="form-check-label" htmlFor="inlineRadio1">{apiResponse.option_text}</label>
          </div>
@@ -88,7 +89,9 @@ export function ListOptionsOfAQuestion(props) {
 
 export function ListQuestionsOfATest(props) {
 
+    console.log('props', props);
     const restEndPoint = '/api/tests/' + props.testId;
+    const navigate = useNavigate();
 
     const [apiResponse, setApiResponse] = useState({
         test_name: "not loaded yet",
@@ -121,7 +124,10 @@ export function ListQuestionsOfATest(props) {
                     console.log("Options: ", options);
                     const post_response = questionnaire_post_response(props.testId, options);
                     console.log(post_response);
-                    callRestApiForPost('http://localhost:5000/api/tr', post_response).then(r => {console.log(r)});
+                    callRestApiForPost('http://localhost:5000/api/tr', post_response).then(r => {console.log(r);
+                        alert("Response submitted successfully!");
+                    });
+                    navigate('/');
                 }}/>
         </div>
     );

@@ -1,11 +1,13 @@
 import React from 'react'
 import "./Tests.css"
 import { useState, useEffect } from 'react'
+import {useNavigate} from "react-router-dom";
 
 
 const Tests = () => {
 
     const [specificTests, setSpecificTests] = useState([])
+    const navigate = useNavigate();
 
     useEffect( () => {
         const getTests = async () => {
@@ -18,18 +20,23 @@ const Tests = () => {
 
     //Fetch Tasks
     const fetchTests = async () => {
-        const res = await fetch('http://localhost:8000/specificTests')
+        const res = await fetch('/api/tests',
+            {
+                method: "GET",
+                headers: {'Content-type': 'application/vnd.api+json', 'Accept': 'application/vnd.api+json'}
+            })
         const data = await res.json()
-        return data
+        console.log(data)
+        return data.data
     }
 
 
     return (
         <div className='tests-body'>
-            <span className='topic-header'>General Questionnaire</span>
-            <hr className='line'></hr>
-            <div className="test-name">Self-Rated Level 1 Cross-Cutting Symptom Measure</div>
-            <div class="test-desc">Are you experiencing the most common symptoms of autism? Find out using our Autism tests.</div>
+            {/*<span className='topic-header'>General Questionnaire</span>*/}
+            {/*<hr className='line'></hr>*/}
+            {/*<div className="test-name">Self-Rated Level 1 Cross-Cutting Symptom Measure</div>*/}
+            {/*<div class="test-desc">Are you experiencing the most common symptoms of autism? Find out using our Autism tests.</div>*/}
 
 
             <div className='topic-header spaced'>Specific Questionnaire</div>
@@ -38,10 +45,11 @@ const Tests = () => {
             {
                 specificTests.map(
                     (test) => (
-                        <>
-                            <div className="test-name">{test.testName}</div>
-                            <div class="test-desc">{test.description}</div>
-                        </>
+                        <div>
+                            {console.log(test.attributes.test_id)}
+                            <div className="test-name" onClick={() => navigate("/tests/" + test.attributes.test_id)}>{test.attributes.name}</div>
+                            <div class="test-desc">{test.attributes.description}</div>
+                        </div>
                     )
                 )
             }
