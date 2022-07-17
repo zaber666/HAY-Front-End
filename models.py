@@ -31,6 +31,7 @@ class Psychiatrist(Person):
     # psychiatrist = db.relationship('Person', backref=db.backref('psychiatrist', uselist=False))
     is_verified = db.Column(db.Boolean, default=False)
     available_times = db.Column(db.String(256))
+    certificate_id = db.Column(db.String(32))
 
 
 

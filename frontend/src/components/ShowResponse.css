@@ -1,0 +1,111 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+.conatiner{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    margin-top: 5%;
+    margin-left: 8%;
+}
+
+.line-psy{
+    width: 75%;
+    margin-left: 0%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.section{
+    margin-top: 3%;
+}
+
+.answersHandler{
+    margin-left: 2%;
+}
+
+.questionTextContainer{
+    display: flex;
+    margin-top: 2%;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.questionId{
+    margin-left: 1%;
+    margin-right: 2%;
+}
+.questionId2{
+    margin-left: 1%;
+    margin-right: 1%;
+}
+.optionContainer{
+    margin-left: 4%;
+}
+
+
+
+
+
+
+.ckbox-container-show {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.ckbox-container-show input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.ckbox-checkmark-show {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+.ckbox-container-show input:checked ~ .ckbox-checkmark-show {
+    background-color: #1e2627;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.ckbox-checkmark-show:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.ckbox-container-show input:checked ~ .ckbox-checkmark-show:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.ckbox-container-show .ckbox-checkmark-show:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

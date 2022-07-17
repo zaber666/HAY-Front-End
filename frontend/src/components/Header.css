@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-
-
-
-
 nav {
     display: flex;
     align-items: center;
@@ -23,7 +19,7 @@ nav {
 .nav-links li {
     position: relative;
     padding-right: 12%;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
     /* white-space: nowrap; */
@@ -101,7 +97,9 @@ nav {
     background-color: gray;
     width: 65%;
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
 }
+
 .rad-box:hover {
   	cursor: pointer;
 }
@@ -118,7 +116,10 @@ nav {
     background-color: gray;
     width: 30%;
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
 }
+
 .rad-box-name:hover {
   	cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
 }

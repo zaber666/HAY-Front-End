@@ -1,13 +1,34 @@
 import React, {useEffect, useState} from 'react';
+import "./Questions.css"
 import ReactDOM from 'react-dom';
+import {questionnaire_post_response} from "./Variables";
+import {useNavigate} from "react-router-dom";
+import {getToken} from "./Variables";
+
 
 const callRestApi = async (restEndpoint) => {
-    const response = await fetch(restEndpoint, {method: "GET", headers: {'Accept': 'application/vnd.api+json'}});
+    const response = await fetch(restEndpoint, {method: "GET", headers: {'Accept': 'application/vnd.api+json'
+                            , 'x-access-token': getToken()}});
     console.log(response)
     const jsonResponse = await response.json();
     // console.log(jsonResponse.data.relationships.questions.data);
     return jsonResponse;
 };
+
+const callRestApiForPost = async (restEndpoint, message_body) => {
+    const response = await fetch(restEndpoint, {
+        method: "POST", headers: {'Accept': 'application/vnd.api+json'
+            , 'Content-Type': 'application/vnd.api+json'
+            , 'x-access-token': getToken()}
+        , body: message_body});
+    console.log(response)
+    const jsonResponse = await response.json();
+    // console.log(jsonResponse.data.relationships.questions.data);
+    return jsonResponse;
+};
+
+var options = {}
+
 
 export function OptionText(props) {
 
@@ -27,13 +48,17 @@ export function OptionText(props) {
     }, []);
 
      return (
-        <div>
-            <p>{apiResponse.option_text}</p>
-        </div>
+         <div className="form-check form-check">
+             <input className="radio" type="radio"  name={props.questionId} value={apiResponse.option_id}
+                onClick={() => {options[props.questionId] = props.optionId; console.log(options)}}/>
+                 <label className="form-check-label" htmlFor="inlineRadio1">{apiResponse.option_text}</label>
+         </div>
+
     );
 }
 
 export function ListOptionsOfAQuestion(props) {
+    console.log('props', props)
 
     const restEndPoint = '/api/questions/' + props.questionId;
 
@@ -54,8 +79,13 @@ export function ListOptionsOfAQuestion(props) {
 
      return (
         <div>
-            <h3>{props.idx} {apiResponse.question_text}</h3>
-            {apiResponse.options.map((option, idx) => <OptionText optionId={option.id}/>)}
+            <div className='questionTextContainer'>
+                <div className='questionId'> {props.key_id}.</div>
+                <div className='questionText'>{apiResponse.question_text}</div>
+            </div>
+            <div className='optionContainer'>
+            {apiResponse.options.map((option, idx) => <OptionText optionId={option.id} questionId={apiResponse.question_id}/>)}
+            </div>
             <br/>
         </div>
     );
@@ -63,7 +93,9 @@ export function ListOptionsOfAQuestion(props) {
 
 export function ListQuestionsOfATest(props) {
 
+    console.log('props', props);
     const restEndPoint = '/api/tests/' + props.testId;
+    const navigate = useNavigate();
 
     const [apiResponse, setApiResponse] = useState({
         test_name: "not loaded yet",
@@ -83,11 +115,24 @@ export function ListQuestionsOfATest(props) {
     }, []);
 
     return (
-        <div>
-            <h1>React App</h1>
-            <p>Test Name: {apiResponse.test_name}</p>
-            <p>Test Description: {apiResponse.test_description}</p>
-            {apiResponse.questions.map((question, idx) => <ListOptionsOfAQuestion questionId={question.id} key={idx}/>)}
+        <div className='container'>
+            <h1>Test Name: {apiResponse.test_name}</h1>
+            <p>{apiResponse.test_description}</p>
+            <form >
+            {apiResponse.questions.map((question, idx) => <ListOptionsOfAQuestion
+                questionId={question.id} key_id={idx+1}/>)}
+            </form>
+
+            <input type="submit" className="login-btn-modal" value="Submit" style={{width: '10%'}}
+                onClick={() => {
+                    console.log("Options: ", options);
+                    const post_response = questionnaire_post_response(props.testId, options);
+                    console.log(post_response);
+                    callRestApiForPost('http://localhost:5000/api/tr', post_response).then(r => {console.log(r);
+                        alert("Response submitted successfully!");
+                    });
+                    navigate('/');
+                }}/>
         </div>
     );
 };

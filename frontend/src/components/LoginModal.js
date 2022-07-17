@@ -1,10 +1,52 @@
 import React from 'react'
 import "./LoginModal.css"
 import {useState} from 'react'
+import {getToken, setToken, setIdType, setPersonId, setUsername} from './Variables.js';
+import {useNavigate} from "react-router-dom";
 
 
 
-const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, isSignUp, closeSignupModalFn}) => {
+const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignupModalFn}) => {
+
+    const navigate = useNavigate();
+
+    // POST Request for login
+    const promptLogin = async (loginInfo) => {
+        const res = await fetch(isPatient? '/patient_login' : '/psychiatrist_login',
+            {
+                method: "POST",
+                headers: {'Content-type': 'application/vnd.api+json'
+                        , 'Accept': 'application/vnd.api+json'},
+                body: JSON.stringify(loginInfo)
+            }
+        );
+        try {
+            const data = await res.json()
+            setToken(data[0]['token'])
+            setIdType(data[1]['id_name'])
+            setPersonId(data[2]['person_id'])
+            setUsername(data[3]['name'])
+            return true
+        } catch (error) {
+            console.log(error)
+            alert('Unsuccessful Login')
+            return false
+        }
+    }
+
+    // POST request for sign up
+    const promptSignup = async (signupInfo) => {
+        console.log('signupInfo', signupInfo)
+        const res = await fetch(isPatient ? '/signup/1' : '/signup/2',
+            {
+                method: "POST",
+                headers: {'Content-type': 'application/vnd.api+json', 'Accept': 'application/vnd.api+json'},
+                body: JSON.stringify(signupInfo)
+            }
+        )
+        const data = await res.json()
+        console.log(data)
+    }
 
     const [isPatient, setIsPatient] = useState(true)
 
@@ -35,12 +77,19 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
             return
         }
 
-        onLogin({email, password})
+        promptLogin({email, password}).then((e) => {
+            if(e) {
+                // window.location.reload(true)
+                navigate('/tests', {replace: true})
+            }
+            else
+                navigate('/login')
+        })
 
         setEmail('')
         setPassword('')
 
-        changeLoginModalFn()
+
     }
 
     const onSignUpSubmit = (e) => {
@@ -64,19 +113,19 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
         if(!dob){
             alert("Date of Birth should not be empty !!!")
             return
-        } 
-        
+        }
+
         if(isPatient){
             if(!height){
                 alert("Height should not be empty !!!")
                 return
             }
-    
+
             if(!weight){
                 alert("Weight should not be empty !!!")
                 return
             }
-    
+
             if(!location){
                 alert("Location should not be empty !!!")
                 return
@@ -89,7 +138,8 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
             }
         }
 
-        onSignup({personType, name, email_, password_, dob, gender, height, weight, location, certificateId})
+        promptSignup({personType, name, email_, password_, dob, gender, height, weight, location, certificateId})
+
         setPersonType("patient")
         setIsPatient(true)
         setName("")
@@ -125,12 +175,12 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
 
 
     return (
-        
+
         <div>
-            {   isSignUp ? 
-                ( 
-                    <div className='modal'> 
-        
+            {   isSignUp ?
+                (
+                    <div className='modal'>
+
 
                         <form className='modal-content animate' onSubmit={onSignUpSubmit}>
                             <div className='imgcontainer'>
@@ -165,8 +215,8 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
                                 <div className='input-field'><label><b>Date of Birth</b></label></div>
                                 <input type="text" placeholder="DD-MM-YYYY" value={dob} onChange={(e) => setDob(e.target.value)} />
 
-                                
-                                {isPatient ? 
+
+                                {isPatient ?
                                     (
                                         <div>
                                             <div className='input-field'><label><b>Height &#40;inches&#41;</b></label></div>
@@ -186,9 +236,9 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
                                         </div>
                                     )
                                 }
-                                
 
-                
+
+
 
                                 <input type="submit" className="login-btn-modal" value="Create" />
 
@@ -196,18 +246,16 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
                                     <div className='open-acc1'>Don't Have an Account?</div>
                                     <div className='open-acc2' onClick={cngSignupModalFn}> <u>Create One</u> </div>
                                 </div> */}
-                                
+
                             </div>
 
                         </form>
                     </div>
 
-                )   : 
+                )   :
                 (
-                    <div className='modal' onSubmit={onLoginSubmit}> 
-        
-
-                        <form className='modal-content animate'>
+                    <div className='modal' >
+                        <form className='modal-content animate' onSubmit={onLoginSubmit}>
                             <div className='imgcontainer'>
                                 <span className="close" title="Close Modal" onClick={changeLoginModalFn}>&times;</span>
                             </div>
@@ -226,15 +274,15 @@ const LoginModal = ({changeLoginModalFn, onLogin, onSignup, cngSignupModalFn, is
                                     <div className='open-acc1'>Don't Have an Account?</div>
                                     <div className='open-acc2' onClick={cngSignupModalFn}> <u>Create One</u> </div>
                                 </div>
-                                
+
                             </div>
 
                         </form>
                     </div>
-                ) 
-            } 
+                )
+            }
         </div>
-        
+
     )
 }
 

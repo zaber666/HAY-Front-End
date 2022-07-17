@@ -13,16 +13,6 @@ from qa_models import *
     
     {
       "data": {
-        "type": "person",
-        "attributes": {
-          "test_id": 2,
-          "patient_id": 1705016,
-        }
-      }
-    }
-    
-    {
-      "data": {
         "type": "tr",
         "attributes": {
           "test_id": 2,
@@ -72,6 +62,7 @@ from qa_models import *
 """
 
 
+@app.route('/calculate_result', methods=['POST'])
 def calculate_score(test_result_id, **kwargs):
     """
         Calculate the score of a test result.

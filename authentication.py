@@ -18,7 +18,9 @@ def generic_token_required(user_type, f):
         token = None
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
+            print('Token in generic decorator', token)
         if not token:
+            print('Token is missing', user_type)
             return jsonify({'message': 'Token is missing!'}), 401
         try:
             # print('PRINTING DATA')
@@ -34,7 +36,9 @@ def generic_token_required(user_type, f):
                 current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
                 # print(current_user)
         except:
-            return jsonify({'message': 'Token is invalid!'})
+            print('Token is invalid for', user_type)
+            return jsonify({'message': 'Token is invalid!'}), 401
+        print('Returning')
         return f(current_user, *args, **kwargs)
     return generic_decorator
 
@@ -91,7 +95,8 @@ def generic_login(user_type, auth):
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
         token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=60)},
                            app.config['SECRET_KEY'])
-        return make_response(jsonify({'token': token}), 201)
+        return make_response(jsonify({'token': token}, {'id_name': id_name}, {'person_id': user.person_id}
+                                        , {'name': user.name}), 201)
     return make_response('Could not verify', 403, {'Authenticate': "Login required!"})
 
 
@@ -141,27 +146,42 @@ def d(_):
     return 'Hello'
 
 
-@app.route('/patient_signup', methods=['POST'])
-def patient_signup():
+@app.route('/patient_signup/<_id>', methods=['POST'])
+def patient_signup(_id):
     data = request.get_json(force=True)
-    name, email = data.get('name'), data.get('email')
-    password = data.get('password')
-    height_inches = data.get('height_inches')
-
+    name, email = data.get('name'), data.get('email_')
+    password = data.get('password_')
+    dob = data.get('dob')
+    gender = data.get('gender')[0]
     user = Person.query.filter_by(email=email).first()
 
     if not user:
-        # user = Person(
-        #     name=name,
-        #     email=email,
-        #     password_hash=generate_password_hash(password))
-        # db.session.add(user)
-        # db.session.commit()
-        # user = Person.query.filter_by(email=email).first()
-        patient = Patient(
-            height_inches=height_inches, name=name, email=email, password_hash=generate_password_hash(password))
-        db.session.add(patient)
+        if _id == 1:
+            height_inches = data.get('height')
+            weight_kgs = data.get('weight')
+            location = data.get('location')
+            patient = Patient(
+                height_inches=height_inches, weight_kgs = weight_kgs, location = location, date_of_birth = dob,
+                gender = gender, photo_path = 'https://picsum.photos/200',
+                name=name, email=email, password_hash=generate_password_hash(password))
+            db.session.add(patient)
+        elif _id == 2:
+            certificateId = data.get('certificateId')
+            psychiatrist = Psychiatrist(
+                certificate_id = certificateId, date_of_birth = dob, gender = gender, photo_path = 'https://picsum.photos/200'
+                , name = name, email = email, password_hash = generate_password_hash(password))
+            db.session.add(psychiatrist)
         db.session.commit()
         return make_response('Successfully registered.', 201)
     else:
         return make_response('User already exists. Please Log in.', 202)
+
+
+@app.route('/info', methods=['POST'])
+def print_info():
+    print(request.get_json(force=True))
+    """
+    {'personType': 'patient', 'name': 'sbgnftr', 'email_': 'a@g.d', 'password_': 'vfetbtbrb', 'dob': '12-12-1202', 'gender': 'others', 'height': '85', 'weight': '120', 'location': 'sddcf', 'certificateId': ''}
+
+    """
+    return 'Hello, world!'
