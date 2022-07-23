@@ -23,57 +23,71 @@ function App() {
 
 
 
-  // return (
-  //   <Router>
-  //     <div >
-  //       <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={userLoggedIn} cngLogoutModalFn={() => changeLogoutModal(true)}  />
+  return (
+    <Router>
+      <div >
+        <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={userLoggedIn} cngLogoutModalFn={() => changeLogoutModal(true)}  />
 
 
-  //       <Routes>
+        <Routes>
           
-  //         <Route path="signIn" element={} />
+          <Route path="signIn" element={
+            <LoginModal changeLoginModalFn={() => changeLoginModal(false)} cngSignupModalFn={() => changeSignupModal(true)} closeSignupModalFn={() => changeSignupModal(false)} isSignUp={signupModal}  />
+          } />
 
-  //         <Route path="/about" element={<About/>} />
-          
-  //         <Route path="/" element={
-  //           <div> 
-  //             {showAddTask && <AddTask onAdd={addTask}/>} 
-  //             { tasks.length > 0 ? (<Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />) : "No Task to Show" } 
-  //           </div>
-  //         } />
+          <Route path="closeSigning" element={
+            <LogoutModal cngLogoutModalFn={() => changeLogoutModal(false)}/>
+          } />
 
-  //       </Routes>
+          <Route path="" element={
+            // <Talks changeModalFn={() => changeLoginModal(true)} />
+            <ShowResponse />
+          } />
 
-  //       <Footer />
-  //     </div>
-  //   </Router>
-  // );
+          <Route path="tests" element={
+            <Tests />
+          } />
+
+          <Route path="psyHome" element={
+            <PsyHome />
+          } />
+
+          <Route path="questionnaire" element={
+            <Questions />
+          } />
+
+        </Routes>
+
+        <Footer />
+      </div>
+    </Router>
+  );
   
   //////////////////////////////////////////////////////////////////////
   //////////////// Previous Return ///////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
-  return (
+  // return (
     
-    <div>
-      <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={userLoggedIn} cngLogoutModalFn={() => changeLogoutModal(true)}  />
+  //   <div>
+  //     <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={userLoggedIn} cngLogoutModalFn={() => changeLogoutModal(true)}  />
       
-      {/* {userLoggedIn ? (<Tests />) : (<Talks changeModalFn={() => changeLoginModal(true)} />)}
+  //     {/* {userLoggedIn ? (<Tests />) : (<Talks changeModalFn={() => changeLoginModal(true)} />)}
 
-      {showLoginModal && <LoginModal changeLoginModalFn={() => changeLoginModal(false)} cngSignupModalFn={() => changeSignupModal(true)} closeSignupModalFn={() => changeSignupModal(false)} isSignUp={signupModal}  />}
+  //     {showLoginModal && <LoginModal changeLoginModalFn={() => changeLoginModal(false)} cngSignupModalFn={() => changeSignupModal(true)} closeSignupModalFn={() => changeSignupModal(false)} isSignUp={signupModal}  />}
 
-      {showLogoutModal && <LogoutModal cngLogoutModalFn={() => changeLogoutModal(false)}/>} */}
+  //     {showLogoutModal && <LogoutModal cngLogoutModalFn={() => changeLogoutModal(false)}/>} */}
 
-      {/* <PsyHome /> */}
+  //     {/* <PsyHome /> */}
 
-      {/* <Questions /> */}
+  //     {/* <Questions /> */}
 
-      {/* <ScoreNDResponse /> */}
+  //     {/* <ScoreNDResponse /> */}
 
-      <ShowResponse />
+  //     <ShowResponse />
       
-      <Footer />
-    </div>
-  );
+  //     <Footer />
+  //   </div>
+  // );
 }
 
 export default App;

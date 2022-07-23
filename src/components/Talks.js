@@ -1,5 +1,7 @@
 import React from 'react'
 import './Talks.css'
+import { useNavigate } from 'react-router-dom'
+
 
 const Talks = ({changeModalFn}) => {
   return (

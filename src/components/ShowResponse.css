@@ -109,3 +109,53 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+.commentInput{
+  resize: none;
+}
+
+.commentContainer{
+  display: flex;
+}
+
+.commentBtn{
+  display: inline-block; 
+  padding: 8px;
+  text-align: center; 
+  margin-top: 5ex;
+  border-radius: 10px 10px 10px 10px; 
+  color:white; 
+  background-color: gray;
+  margin-left: 3%;
+}
+.commentBtn:hover{
+  background-color: #1e2627;
+}
+
+.commentSpan{
+  display: inline-block; 
+  cursor: pointer;
+}
+
+
+
+.notifyBtn{
+  display: inline-block; 
+  padding: 8px;
+  text-align: center; 
+  margin-top: 2ex;
+  border-radius: 10px 10px 10px 10px; 
+  color:white; 
+  background-color: gray;
+  margin-left: 2%;
+}
+.notifyBtn:hover{
+  background-color: #1e2627;
+}
+
+.notifySpan{
+  display: inline-block; 
+  cursor: pointer;
+}
+
+

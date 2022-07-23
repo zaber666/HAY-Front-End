@@ -6,6 +6,10 @@ const ShowResponse = () => {
 
     const [responseee, setResponse] = useState([])
     const [questionAns, setQuestionAns] = useState([])
+    const [comment, setComment] = useState([])
+
+    const [disorders, setDisorders] = useState([])
+    const [responseDisorders, setResponseDisorder] = useState({})
   
     useEffect( () => {
         const getResponse = async () => {
@@ -14,11 +18,41 @@ const ShowResponse = () => {
 
             const questionAnsFromServer = await fetchQuestionAns()
             setQuestionAns(questionAnsFromServer)
-        }
 
+            const disordersFromServer = await fetchDisorders()
+            setDisorders(disordersFromServer)
+            
+            var disorderDict = {}
+            disordersFromServer.map(
+                (disorder) => disorderDict[disorder] = false
+            );
+            setResponseDisorder(disorderDict);
+        }
         getResponse()
 
     }, [])
+
+    const commentUpload = async (comment) => {
+        const res = await fetch('http://localhost:8000/comment_response', 
+            {
+                method: "POST", 
+                headers: {'Content-type': 'application/json'}, 
+                body: JSON.stringify(comment)
+            }
+        )
+        const data = await res.json()
+    }
+
+    const onCommentPost = (e) => {
+        e.preventDefault();
+
+        if(!comment){
+            alert("Comment is empty");
+            return;
+        }
+        commentUpload({comment});
+        setComment('');
+    }
 
     const fetchResponse = async () => {
         const res = await fetch('http://localhost:8000/responseBasic')
@@ -32,26 +66,32 @@ const ShowResponse = () => {
         return data
     }
 
-    const test = () => {
-        console.log("henlo")
-        var l = Object.keys(responseee).length
-        console.log(l)
-        for( const [key, value] of Object.entries(responseee)){
-            console.log(key)
+    const fetchDisorders = async () => {
+        const res = await fetch('http://localhost:8000/disorder_list')
+        const data = await res.json()
+        return data
+    }
+
+    
+
+    const handleList = (e) => {
+        var tempDict = {}
+        for (const [key, value] of Object.entries(responseDisorders)){
+            tempDict[key] = value
         }
-        console.log("henlo2")
+        tempDict[e.target.value] = e.target.checked;
+        setResponseDisorder(tempDict);
     }
 
     return (
         <div className='container'>
-            <div onClick={test}>
+            <div >
                 System Report For <b><i>{ responseee.patientName }</i></b> agains <b><i>{responseee.testName}</i></b>
             </div>
             <hr className='line-psy'></hr>
 
             <div className='section'>Test Questions</div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
-            <div>{responseee.patientHeight} {responseee.patientWeight} {responseee.patientLocation} {responseee.systemScore}</div>
 
             {
                 questionAns.map(
@@ -124,6 +164,43 @@ const ShowResponse = () => {
             <div className='section'>System Score</div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
             <div className='optionContainer'>{responseee.systemScore}</div>
+
+
+            <div className='section'>Add Comment</div>
+            <hr className='line-psy' style={{width:"30%"}}></hr>
+            <div className='commentContainer'>
+                <textarea className='commentInput' rows="5" cols="70" placeholder='Enter Comment' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+
+                <div className="commentBtn" onClick={onCommentPost}>
+                    <span className='commentSpan'>Comment</span>
+                </div>  
+            </div>
+
+
+            <div className='section'>Add Possible Disorder</div>
+            <hr className='line-psy' style={{width:"30%"}}></hr>
+            
+            {
+                disorders.map(
+                    (disorder) => (
+                        <div className='optionContainer'>
+                            
+                            <label className="ckbox-container-show">{disorder}
+                                <input type="checkbox" value={disorder} onChange={(e) => handleList(e)}/>
+                                <span className="ckbox-checkmark-show"></span>
+
+                            </label>
+
+                        </div>
+                    )
+                )
+            }
+
+            <div className="notifyBtn" >
+                <span className='notifySpan'>Notify</span>
+            </div>  
+
+            
         </div>
     )
 }
