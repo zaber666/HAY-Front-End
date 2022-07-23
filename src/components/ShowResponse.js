@@ -54,6 +54,19 @@ const ShowResponse = () => {
         setComment('');
     }
 
+    const uploadDisorders = async(e) => {
+        e.preventDefault();
+
+        const res = await fetch('http://localhost:8000/disorderSugesstion', 
+            {
+                method: "POST", 
+                headers: {'Content-type': 'application/json'}, 
+                body: JSON.stringify(responseDisorders)
+            }
+        )
+        const data = await res.json()
+    }
+
     const fetchResponse = async () => {
         const res = await fetch('http://localhost:8000/responseBasic')
         const data = await res.json()
@@ -107,7 +120,6 @@ const ShowResponse = () => {
                                 question.options.map(
                                     (option) => (
                                         <div className='optionContainer'>
-                                            
                                             <label className="ckbox-container-show">{option.value}
                                                 {
                                                     option.checked? (<input type="checkbox" disabled checked />) :(<input type="checkbox" disabled />)
@@ -196,7 +208,7 @@ const ShowResponse = () => {
                 )
             }
 
-            <div className="notifyBtn" >
+            <div className="notifyBtn" onClick={uploadDisorders}>
                 <span className='notifySpan'>Notify</span>
             </div>  
 
