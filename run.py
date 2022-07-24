@@ -1,8 +1,11 @@
-from app import *
+import json
+
 from authentication import *
+from authentication_controller import patient_token_required
 from take_questionnaire import *
 import flask_restless
-
+from multidict import MultiDict
+from check_test_reponses_controller import *
 
 
 def is_patient_logged_in(_ = None, **kwargs):
@@ -22,7 +25,6 @@ def is_patient_logged_in(_ = None, **kwargs):
         ex = False
     if ex:
         raise flask_restless.ProcessingException(detail='Not signed up as patient', status=401)
-
 
 
 # Create the Flask-Restless API manager.

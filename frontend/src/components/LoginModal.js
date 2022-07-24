@@ -166,24 +166,16 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
     const changePersonType = (e) => {
         // console.log("Hello brother")
         setPersonType(e.target.value)
-
         setIsPatient(!isPatient)
-
-
     }
 
-
-
     return (
-
         <div>
             {   isSignUp ?
                 (
                     <div className='modal'>
-
-
                         <form className='modal-content animate' onSubmit={onSignUpSubmit}>
-                            <div className='imgcontainer'>
+                            <div className='imgcontainer'  onClick={() => {navigate(-1); closeAll();} }>
                                 <span className="close" title="Close Modal" onClick={closeAll}>&times;</span>
                             </div>
 
@@ -237,9 +229,6 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
                                     )
                                 }
 
-
-
-
                                 <input type="submit" className="login-btn-modal" value="Create" />
 
                                 {/* <div className='open-acc'>
@@ -257,7 +246,7 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
                     <div className='modal' >
                         <form className='modal-content animate' onSubmit={onLoginSubmit}>
                             <div className='imgcontainer'>
-                                <span className="close" title="Close Modal" onClick={changeLoginModalFn}>&times;</span>
+                                <span className="close" title="Close Modal" onClick={() => navigate(-1)}>&times;</span>
                             </div>
 
                             <div className="login-container">

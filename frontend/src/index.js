@@ -5,14 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CookiesProvider } from "react-cookie";
 import {clearAll} from "./components/Variables";
+import ShowResponse from "./components/ShowResponse";
+import ScoreNDResponse from "./components/ScoreNDResponse";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <CookiesProvider>
-          <App />
-      </CookiesProvider>
+      <App/>
   </React.StrictMode>
 );
 

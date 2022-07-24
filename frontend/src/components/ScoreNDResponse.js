@@ -1,10 +1,12 @@
 import React from 'react'
 import "./ScoreNDResponse.css"
 import { useState, useEffect } from 'react'
+import {useNavigate} from "react-router-dom";
 
 const ScoreNDResponse = () => {
 
   const [responses, setResponses] = useState([])
+  const navigate = useNavigate()
 
   useEffect( () => {
     const getResponses = async () => {
@@ -15,9 +17,10 @@ const ScoreNDResponse = () => {
   }, [])
 
   const fetchResponses = async () => {
-    const res = await fetch('http://localhost:8000/responses')
+    const res = await fetch('/test_responses')
     const data = await res.json()
-    return data
+
+    return data.results
   }
 
 
@@ -33,7 +36,7 @@ const ScoreNDResponse = () => {
           <thead>
           <tr>
             <th>Test Name</th>
-            <th>Patient Name</th>
+            <th>Patient Name (to be anonymised later)</th>
             <th>System Score</th>
             <th>Response</th>
           </tr>
@@ -44,10 +47,11 @@ const ScoreNDResponse = () => {
             responses.map(
                 (response) => (
                     <tr>
-                      <td>{response.testName}</td>
-                      <td>{response.patientName}</td>
-                      <td>{response.systemScore}</td>
-                      <td><div className='response-text'>Get Response</div></td><br/> <br/>
+                      <td>{response.test_name}</td>
+                      <td>{response.patient_name}</td>
+                      <td>{response.score}</td>
+                      {/* TODO: insert a link to */}
+                      <td><div className='response-text' onClick={() => navigate('/test_result/' + response.test_result_id)}>Get Response</div></td><br/> <br/>
                     </tr>
                 )
             )

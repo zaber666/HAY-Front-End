@@ -1,35 +1,48 @@
 import React from 'react'
 import "./ShowResponse.css"
 import { useEffect, useState } from 'react'
+import {getToken} from "./Variables";
 
-const ShowResponse = () => {
+const ShowResponse = (props) => {
 
-    const [responseee, setResponse] = useState([])
+    const [responseee, setResponse] = useState({
+        patient_name: 'sx'
+    })
     const [questionAns, setQuestionAns] = useState([])
 
     useEffect( () => {
-        const getResponse = async () => {
-            const responseFromServer = await fetchResponse()
+        const getResponse = async (trId) => {
+            const responseFromServer = await fetchResponse(trId)
             setResponse(responseFromServer)
 
-            const questionAnsFromServer = await fetchQuestionAns()
+            const questionAnsFromServer = await fetchQuestionAns(trId)
             setQuestionAns(questionAnsFromServer)
         }
 
-        getResponse()
+        getResponse(props.testResultId)
 
     }, [])
 
-    const fetchResponse = async () => {
-        const res = await fetch('http://localhost:8000/responseBasic')
-        const data = await res.json()
-        return data
+    function waitTillDefined(x) {
+        while(typeof x !== 'undefined');
     }
 
-    const fetchQuestionAns = async () => {
-        const res = await fetch('http://localhost:8000/responseQuestions')
+    const fetchResponse = async (trId) => {
+        const res = await fetch('/responseBasic/' + trId, {method: "GET", headers: {'Accept': 'application/vnd.api+json'
+                            , 'x-access-token': getToken()}})
+        // console.log(res)
         const data = await res.json()
-        return data
+        console.log('from fetch response', data)
+        return data.responseBasic
+    }
+
+    const fetchQuestionAns = async (trId) => {
+        const res = await fetch('/show_patient_responses/' + trId, {method: "GET", headers: {'Accept': 'application/vnd.api+json'
+                            , 'x-access-token': getToken()}})
+        // console.log(res)
+        const data = await res.json()
+
+        return data.responseQuestions
     }
 
     const test = () => {
@@ -44,23 +57,25 @@ const ShowResponse = () => {
 
     return (
         <div className='container'>
+            { console.log('Props:', props) }
+            { responseee &&
             <div onClick={test}>
-                System Report For <b><i>{ responseee.patientName }</i></b> agains <b><i>{responseee.testName}</i></b>
-            </div>
+                System Report For <b><i>{ responseee.patient_name }</i></b> against <b><i>{responseee.test_name}</i></b>
+            </div> }
             <hr className='line-psy'></hr>
 
             <div className='section'>Test Questions</div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
-            <div>{responseee.patientHeight} {responseee.patientWeight} {responseee.patientLocation} {responseee.systemScore}</div>
+            <div>{responseee.patient_height} {responseee.patient_weight} {responseee.patient_location} {responseee.score}</div>
 
             {
                 questionAns.map(
-                    (question) => (
+                    (question, idx) => (
                         <div className='answersHandler'>
 
                             <div className='questionTextContainer'>
-                                <div className='questionId'>{question.id}.</div>
-                                <div className='questionText'>{question.questionText}</div>
+                                <div className='questionId'>{idx + 1}.</div>
+                                <div className='questionText'>{question.question_text}</div>
                             </div>
 
                             {
