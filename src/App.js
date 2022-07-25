@@ -12,6 +12,7 @@ import PsyHome from './components/PsyHome';
 import Questions from './components/Questions';
 import ScoreNDResponse from './components/ScoreNDResponse';
 import ShowResponse from './components/ShowResponse';
+import VerifiedReports from './VerifiedReports';
 
 function App() {
 
@@ -41,7 +42,8 @@ function App() {
 
           <Route path="" element={
             // <Talks changeModalFn={() => changeLoginModal(true)} />
-            <ShowResponse />
+            // <ShowResponse />
+            <VerifiedReports />
           } />
 
           <Route path="tests" element={

@@ -1,0 +1,56 @@
+.conatiner{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    margin-top: 5%;
+    margin-left: 8%;
+}
+
+.line-psy{
+    width: 75%;
+    margin-left: 0%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+
+.review-card {
+    padding: 10px;
+    /* background-color: rgba(134, 173, 224, 0.7); */
+    background-color: rgb(226, 214, 214);
+    border-radius: 10px;
+    width: 80%;
+    margin-bottom: 1%;
+}
+ 
+.title{
+    display: flex;
+}
+.left{
+    width:90%;
+    display: flex;
+}
+.right{
+    width: 10%;
+    /* float: right;
+    text-align: right; */
+}
+.rightElem{
+    margin-left: 75%;
+    text-align: center;
+    /* border:1px solid black; */
+    border-radius: 10px;
+}
+.rightElem:hover{
+    background-color: rgb(174, 138, 138);
+    cursor: pointer;
+}
+
+.link{
+    margin-left: 0.5%;
+    text-decoration: underline;
+    
+}
+.link:hover{
+    color:rgb(89, 16, 16);
+    cursor: pointer;
+}

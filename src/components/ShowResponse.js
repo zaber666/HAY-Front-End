@@ -178,10 +178,10 @@ const ShowResponse = () => {
             <div className='optionContainer'>{responseee.systemScore}</div>
 
 
-            <div className='section'>Add Comment</div>
+            <div className='section'>Add Suggestions</div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
             <div className='commentContainer'>
-                <textarea className='commentInput' rows="5" cols="70" placeholder='Enter Comment' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+                <textarea className='commentInput' rows="5" cols="70" placeholder='Enter Sugesstions' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
 
                 <div className="commentBtn" onClick={onCommentPost}>
                     <span className='commentSpan'>Comment</span>
