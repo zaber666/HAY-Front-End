@@ -32,7 +32,7 @@ const ScoreNDResponse = () => {
         <hr className='line-psy'></hr>
 
 
-        <table className="content-table">
+        <div className="table-wrapper-cross-y content-table">
           <thead>
           <tr>
             <th>Test Name</th>
@@ -57,7 +57,7 @@ const ScoreNDResponse = () => {
             )
           }
           </tbody>
-        </table>
+        </div>
 
 
       </div>

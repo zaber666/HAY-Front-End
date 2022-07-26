@@ -9,6 +9,10 @@ const ShowResponse = (props) => {
         patient_name: 'sx'
     })
     const [questionAns, setQuestionAns] = useState([])
+    const [comment, setComment] = useState([])
+
+    const [disorders, setDisorders] = useState([])
+    const [responseDisorders, setResponseDisorder] = useState({})
 
     useEffect( () => {
         const getResponse = async (trId) => {
@@ -23,8 +27,26 @@ const ShowResponse = (props) => {
 
     }, [])
 
-    function waitTillDefined(x) {
-        while(typeof x !== 'undefined');
+    const commentUpload = async (comment) => {
+        const res = await fetch('http://localhost:8000/comment_response', 
+            {
+                method: "POST", 
+                headers: {'Content-type': 'application/json'}, 
+                body: JSON.stringify(comment)
+            }
+        )
+        const data = await res.json()
+    }
+
+    const onCommentPost = (e) => {
+        e.preventDefault();
+
+        if(!comment){
+            alert("Comment is empty");
+            return;
+        }
+        commentUpload({comment});
+        setComment('');
     }
 
     const fetchResponse = async (trId) => {
