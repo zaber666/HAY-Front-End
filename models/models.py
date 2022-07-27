@@ -34,6 +34,30 @@ class Psychiatrist(Person):
     certificate_id = db.Column(db.String(32))
 
 
+class Award(db.Model):
+    __tablename__ = 'awards'
+    award_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    host = db.Column(db.String(256))
+
+
+class Degree(db.Model):
+    __tablename__ = 'degrees'
+    degree_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    institution = db.Column(db.String(256))
+
+
+PsychiatristAward = db.Table('psychiatrist_award',
+                                db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
+                                db.Column('award_id', db.Integer, db.ForeignKey('awards.award_id'), primary_key=True)
+                             )
+
+PsychiatristDegree = db.Table('psychiatrist_degree',
+                                db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
+                                db.Column('degree_id', db.Integer, db.ForeignKey('degrees.degree_id'), primary_key=True)
+                              )
+
 
 class Role(db.Model):
     __tablename__ = 'roles'

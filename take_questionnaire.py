@@ -1,5 +1,5 @@
-from app import app, db
-from qa_models import *
+from app import app
+from models.qa_models import *
 
 """
     This file contains the code for the questionnaire.

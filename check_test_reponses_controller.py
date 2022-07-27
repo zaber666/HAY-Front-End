@@ -66,3 +66,4 @@ def rd(test_result_id):
     result = [dict(x) for x in result.mappings().all()]
     print(result[0])
     return jsonify({'responseBasic': result[0] })
+

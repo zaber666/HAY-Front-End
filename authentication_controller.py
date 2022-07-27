@@ -8,7 +8,7 @@ from flask import request, jsonify, make_response
 from werkzeug.security import check_password_hash
 
 from app import app, db
-from models import Person, Patient, Psychiatrist
+from models.models import Person, Patient, Psychiatrist
 
 
 def generic_token_required(user_type, f):

@@ -119,6 +119,41 @@ CREATE TABLE public.answer (
 ALTER TABLE public.answer OWNER TO postgres;
 
 --
+-- Name: awards; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.awards (
+    award_id integer NOT NULL,
+    name character varying(64),
+    host character varying(256)
+);
+
+
+ALTER TABLE public.awards OWNER TO postgres;
+
+--
+-- Name: awards_award_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.awards_award_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.awards_award_id_seq OWNER TO postgres;
+
+--
+-- Name: awards_award_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.awards_award_id_seq OWNED BY public.awards.award_id;
+
+
+--
 -- Name: counselling_suggestion; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -129,6 +164,76 @@ CREATE TABLE public.counselling_suggestion (
 
 
 ALTER TABLE public.counselling_suggestion OWNER TO postgres;
+
+--
+-- Name: degrees; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.degrees (
+    degree_id integer NOT NULL,
+    name character varying(64),
+    institution character varying(256)
+);
+
+
+ALTER TABLE public.degrees OWNER TO postgres;
+
+--
+-- Name: degrees_degree_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.degrees_degree_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.degrees_degree_id_seq OWNER TO postgres;
+
+--
+-- Name: degrees_degree_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.degrees_degree_id_seq OWNED BY public.degrees.degree_id;
+
+
+--
+-- Name: diseases; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.diseases (
+    disease_id integer NOT NULL,
+    name character varying(64) NOT NULL,
+    description character varying(256)
+);
+
+
+ALTER TABLE public.diseases OWNER TO postgres;
+
+--
+-- Name: diseases_disease_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.diseases_disease_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.diseases_disease_id_seq OWNER TO postgres;
+
+--
+-- Name: diseases_disease_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.diseases_disease_id_seq OWNED BY public.diseases.disease_id;
+
 
 --
 -- Name: options; Type: TABLE; Schema: public; Owner: postgres
@@ -219,6 +324,42 @@ ALTER TABLE public.persons_person_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.persons_person_id_seq OWNED BY public.persons.person_id;
 
+
+--
+-- Name: psychiatrist_award; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.psychiatrist_award (
+    psychiatrist_id integer NOT NULL,
+    award_id integer NOT NULL
+);
+
+
+ALTER TABLE public.psychiatrist_award OWNER TO postgres;
+
+--
+-- Name: psychiatrist_degree; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.psychiatrist_degree (
+    psychiatrist_id integer NOT NULL,
+    degree_id integer NOT NULL
+);
+
+
+ALTER TABLE public.psychiatrist_degree OWNER TO postgres;
+
+--
+-- Name: psychiatrist_disease; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.psychiatrist_disease (
+    psychiatrist_id integer NOT NULL,
+    disease_id integer NOT NULL
+);
+
+
+ALTER TABLE public.psychiatrist_disease OWNER TO postgres;
 
 --
 -- Name: psychiatrists; Type: TABLE; Schema: public; Owner: postgres
@@ -318,6 +459,18 @@ CREATE TABLE public.test_question (
 ALTER TABLE public.test_question OWNER TO postgres;
 
 --
+-- Name: test_result_disease; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.test_result_disease (
+    test_result_id integer NOT NULL,
+    disease_id integer NOT NULL
+);
+
+
+ALTER TABLE public.test_result_disease OWNER TO postgres;
+
+--
 -- Name: test_results; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -394,6 +547,27 @@ ALTER TABLE public.tests_test_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.tests_test_id_seq OWNED BY public.tests.test_id;
+
+
+--
+-- Name: awards award_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.awards ALTER COLUMN award_id SET DEFAULT nextval('public.awards_award_id_seq'::regclass);
+
+
+--
+-- Name: degrees degree_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.degrees ALTER COLUMN degree_id SET DEFAULT nextval('public.degrees_degree_id_seq'::regclass);
+
+
+--
+-- Name: diseases disease_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.diseases ALTER COLUMN disease_id SET DEFAULT nextval('public.diseases_disease_id_seq'::regclass);
 
 
 --
@@ -641,10 +815,39 @@ COPY public.answer (test_result_id, option_id) FROM stdin;
 
 
 --
+-- Data for Name: awards; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.awards (award_id, name, host) FROM stdin;
+\.
+
+
+--
 -- Data for Name: counselling_suggestion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.counselling_suggestion (test_result_id, psychiatrist_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: degrees; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.degrees (degree_id, name, institution) FROM stdin;
+\.
+
+
+--
+-- Data for Name: diseases; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.diseases (disease_id, name, description) FROM stdin;
+1	Depression	\N
+2	Mania	\N
+3	Somatic Symptoms	\N
+4	ADHD	\N
+5	PTSD	\N
 \.
 
 
@@ -935,6 +1138,30 @@ COPY public.persons (person_id, name, email, password_hash, date_of_birth, gende
 
 
 --
+-- Data for Name: psychiatrist_award; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.psychiatrist_award (psychiatrist_id, award_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: psychiatrist_degree; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.psychiatrist_degree (psychiatrist_id, degree_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: psychiatrist_disease; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.psychiatrist_disease (psychiatrist_id, disease_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: psychiatrists; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1022,6 +1249,14 @@ COPY public.test_question (test_id, question_id, is_approved) FROM stdin;
 
 
 --
+-- Data for Name: test_result_disease; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.test_result_disease (test_result_id, disease_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: test_results; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1063,6 +1298,27 @@ COPY public.tests (test_id, name, description, created_at, is_approved, psychiat
 2	LEVEL 2—Depression—Adult	Are you depressed for any recent happenings aroung you? 	2022-07-14 15:12:44	t	1705044
 3	LEVEL 2—Anger—Adult	The questions below ask about these feelings in more detail and especially how often you (the individual receiving care) have been bothered by a list of symptoms during the past 7 days. 	2022-07-16 00:50:22	t	1705002
 \.
+
+
+--
+-- Name: awards_award_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.awards_award_id_seq', 1, false);
+
+
+--
+-- Name: degrees_degree_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.degrees_degree_id_seq', 1, false);
+
+
+--
+-- Name: diseases_disease_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.diseases_disease_id_seq', 5, true);
 
 
 --
@@ -1124,11 +1380,35 @@ ALTER TABLE ONLY public.answer
 
 
 --
+-- Name: awards awards_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.awards
+    ADD CONSTRAINT awards_pkey PRIMARY KEY (award_id);
+
+
+--
 -- Name: counselling_suggestion counselling_suggestion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.counselling_suggestion
     ADD CONSTRAINT counselling_suggestion_pkey PRIMARY KEY (test_result_id, psychiatrist_id);
+
+
+--
+-- Name: degrees degrees_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.degrees
+    ADD CONSTRAINT degrees_pkey PRIMARY KEY (degree_id);
+
+
+--
+-- Name: diseases diseases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.diseases
+    ADD CONSTRAINT diseases_pkey PRIMARY KEY (disease_id);
 
 
 --
@@ -1153,6 +1433,30 @@ ALTER TABLE ONLY public.patients
 
 ALTER TABLE ONLY public.persons
     ADD CONSTRAINT persons_pkey PRIMARY KEY (person_id);
+
+
+--
+-- Name: psychiatrist_award psychiatrist_award_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_award
+    ADD CONSTRAINT psychiatrist_award_pkey PRIMARY KEY (psychiatrist_id, award_id);
+
+
+--
+-- Name: psychiatrist_degree psychiatrist_degree_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_degree
+    ADD CONSTRAINT psychiatrist_degree_pkey PRIMARY KEY (psychiatrist_id, degree_id);
+
+
+--
+-- Name: psychiatrist_disease psychiatrist_disease_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_disease
+    ADD CONSTRAINT psychiatrist_disease_pkey PRIMARY KEY (psychiatrist_id, disease_id);
 
 
 --
@@ -1193,6 +1497,14 @@ ALTER TABLE ONLY public.roles
 
 ALTER TABLE ONLY public.test_question
     ADD CONSTRAINT test_question_pkey PRIMARY KEY (test_id, question_id);
+
+
+--
+-- Name: test_result_disease test_result_disease_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.test_result_disease
+    ADD CONSTRAINT test_result_disease_pkey PRIMARY KEY (test_result_id, disease_id);
 
 
 --
@@ -1260,6 +1572,54 @@ ALTER TABLE ONLY public.patients
 
 
 --
+-- Name: psychiatrist_award psychiatrist_award_award_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_award
+    ADD CONSTRAINT psychiatrist_award_award_id_fkey FOREIGN KEY (award_id) REFERENCES public.awards(award_id);
+
+
+--
+-- Name: psychiatrist_award psychiatrist_award_psychiatrist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_award
+    ADD CONSTRAINT psychiatrist_award_psychiatrist_id_fkey FOREIGN KEY (psychiatrist_id) REFERENCES public.psychiatrists(psychiatrist_id);
+
+
+--
+-- Name: psychiatrist_degree psychiatrist_degree_degree_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_degree
+    ADD CONSTRAINT psychiatrist_degree_degree_id_fkey FOREIGN KEY (degree_id) REFERENCES public.degrees(degree_id);
+
+
+--
+-- Name: psychiatrist_degree psychiatrist_degree_psychiatrist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_degree
+    ADD CONSTRAINT psychiatrist_degree_psychiatrist_id_fkey FOREIGN KEY (psychiatrist_id) REFERENCES public.psychiatrists(psychiatrist_id);
+
+
+--
+-- Name: psychiatrist_disease psychiatrist_disease_disease_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_disease
+    ADD CONSTRAINT psychiatrist_disease_disease_id_fkey FOREIGN KEY (disease_id) REFERENCES public.diseases(disease_id);
+
+
+--
+-- Name: psychiatrist_disease psychiatrist_disease_psychiatrist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.psychiatrist_disease
+    ADD CONSTRAINT psychiatrist_disease_psychiatrist_id_fkey FOREIGN KEY (psychiatrist_id) REFERENCES public.psychiatrists(psychiatrist_id);
+
+
+--
 -- Name: psychiatrists psychiatrists_psychiatrist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1281,6 +1641,22 @@ ALTER TABLE ONLY public.test_question
 
 ALTER TABLE ONLY public.test_question
     ADD CONSTRAINT test_question_test_id_fkey FOREIGN KEY (test_id) REFERENCES public.tests(test_id);
+
+
+--
+-- Name: test_result_disease test_result_disease_disease_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.test_result_disease
+    ADD CONSTRAINT test_result_disease_disease_id_fkey FOREIGN KEY (disease_id) REFERENCES public.diseases(disease_id);
+
+
+--
+-- Name: test_result_disease test_result_disease_test_result_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.test_result_disease
+    ADD CONSTRAINT test_result_disease_test_result_id_fkey FOREIGN KEY (test_result_id) REFERENCES public.test_results(test_result_id);
 
 
 --

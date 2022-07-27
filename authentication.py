@@ -1,7 +1,5 @@
-from app import app
 from authentication_controller import *
-from models import *
-from qa_models import *
+from models.qa_models import *
 from werkzeug.security import generate_password_hash
 from flask import jsonify, make_response, request
 import jwt

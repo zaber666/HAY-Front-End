@@ -50,7 +50,8 @@ const ScoreNDResponse = () => {
                       <td>{response.test_name}</td>
                       <td>{response.patient_name}</td>
                       <td>{response.score}</td>
-                      {/* TODO: insert a link to */}
+                      {/* TODO: insert a l
+                      ink to */}
                       <td><div className='response-text' onClick={() => navigate('/test_result/' + response.test_result_id)}>Get Response</div></td><br/> <br/>
                     </tr>
                 )
