@@ -1,7 +1,7 @@
 import React from 'react'
 import "./LoginModal.css"
 import {useState} from 'react'
-import {getToken, setToken, setIdType, setPersonId, setUsername} from './Variables.js';
+import {getToken, setToken, setIdType, setPersonId, setUsername, getIdType} from './Variables.js';
 import {useNavigate} from "react-router-dom";
 
 
@@ -12,7 +12,7 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
 
     // POST Request for login
     const promptLogin = async (loginInfo) => {
-        const res = await fetch(isPatient? '/patient_login' : '/psychiatrist_login',
+        const res = await fetch('/login',
             {
                 method: "POST",
                 headers: {'Content-type': 'application/vnd.api+json'
@@ -80,7 +80,15 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
         promptLogin({email, password}).then((e) => {
             if(e) {
                 // window.location.reload(true)
-                navigate('/tests', {replace: true})
+                if (getIdType() == 'patient_id') {
+                    setIsPatient(true)
+                    navigate('/tests', {replace: true})
+                }
+                else if (getIdType() == 'psychiatrist_id') {
+                    setIsPatient(false)
+                    navigate('/psyhome', {replace: true})
+                }
+                window.location.reload(true)
             }
             else
                 navigate('/login')

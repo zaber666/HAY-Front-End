@@ -1,5 +1,4 @@
-import datetime
-from datetime import timedelta
+from datetime import timedelta, datetime
 from functools import wraps
 from werkzeug.security import generate_password_hash
 
@@ -22,18 +21,19 @@ def generic_token_required(user_type, f):
             print('Token is missing', user_type)
             return jsonify({'message': 'Token is missing!'}), 401
         try:
-            # print('PRINTING DATA')
+            print('PRINTING DATA')
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-            # print('PRINTING DATA 2')
             print(data)
-            if user_type == 'Person':
-                current_user = Person.query.filter_by(person_id=data['person_id']).first()
-            elif user_type == 'Patient':
+            # user = Person.query.filter_by(person_id=data['person_id']).first()
+            # print('PRINTING DATA 2')
+            # if user.role == user_type:
+            if user_type == 'patient':
                 current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
-            elif user_type == 'Psychiatrist':
-                # print('PRINTING DATA 3')
+            elif user_type == 'psychiatrist':
                 current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
-                # print(current_user)
+                print(current_user)
+            else:
+                return jsonify({'message': 'Token is invalid!'}), 401
         except:
             print('Token is invalid for', user_type)
             return jsonify({'message': 'Token is invalid!'}), 401
@@ -42,9 +42,9 @@ def generic_token_required(user_type, f):
     return generic_decorator
 
 
-token_required = lambda f : generic_token_required('Person', f)
-patient_token_required = lambda f : generic_token_required('Patient', f)
-psychiatrist_token_required = lambda f : generic_token_required('Psychiatrist', f)
+token_required = lambda f : generic_token_required('person', f)
+patient_token_required = lambda f : generic_token_required('patient', f)
+psychiatrist_token_required = lambda f : generic_token_required('psychiatrist', f)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -53,16 +53,14 @@ def generic_logout():
     jwt.encode(dict())
 
 
-def generic_login(user_type, auth):
+def generic_login(auth):
     global id_name
     if not auth or not auth.get('email') or not auth.get('password'):
         return make_response('Could not verify', 401, {'Authenticate': "Login required!"})
     user = Person.query.filter_by(email=auth.get('email')).first()
-    if user_type == 'Person':
-        id_name = 'person_id'
-    elif user_type == 'Patient':
+    if user.role == 'patient':
         id_name = 'patient_id'
-    elif user_type == 'Psychiatrist':
+    elif user.role == 'psychiatrist':
         id_name = 'psychiatrist_id'
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
         token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=60)},

@@ -37,21 +37,21 @@ def get_current_user(_):
 @app.route('/login', methods=['POST'])
 def login():
     auth = request.get_json(force=True)
-    return generic_login('Person', auth)
+    return generic_login( auth)
 
-
-@app.route('/patient_login', methods=['POST'])
-def patient_login():
-    auth = request.get_json(force=True)
-    # print(auth)
-    return generic_login('Patient', auth)
-
-
-@app.route('/psychiatrist_login', methods=['POST'])
-def psychiatrist_login():
-    auth = request.get_json(force=True)
-    # print(auth)
-    return generic_login('Psychiatrist', auth)
+#
+# @app.route('/patient_login', methods=['POST'])
+# def patient_login():
+#     auth = request.get_json(force=True)
+#     # print(auth)
+#     return generic_login('Patient', auth)
+#
+#
+# @app.route('/psychiatrist_login', methods=['POST'])
+# def psychiatrist_login():
+#     auth = request.get_json(force=True)
+#     # print(auth)
+#     return generic_login('Psychiatrist', auth)
 
 
 @app.route('/signup', methods=['POST'])

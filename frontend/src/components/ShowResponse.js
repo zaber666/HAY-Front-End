@@ -37,10 +37,10 @@ const ShowResponse = (props) => {
     }, [])
 
     const commentUpload = async (comment) => {
-        const res = await fetch('http://localhost:8000/comment_response', 
+        const res = await fetch('http://localhost:5000/submit_comment/' + props.testResultId,
             {
                 method: "POST", 
-                headers: {'Content-type': 'application/json'}, 
+                headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
                 body: JSON.stringify(comment)
             }
         )
@@ -61,10 +61,10 @@ const ShowResponse = (props) => {
     const uploadDisorders = async(e) => {
         e.preventDefault();
 
-        const res = await fetch('http://localhost:8000/disorderSugesstion',
+        const res = await fetch('http://localhost:5000/disorder_suggestions/' + props.testResultId,
             {
                 method: "POST",
-                headers: {'Content-type': 'application/json'},
+                headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
                 body: JSON.stringify(responseDisorders)
             }
         )

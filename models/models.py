@@ -14,6 +14,7 @@ class Person(db.Model):
     gender = db.Column(db.String(1))
     photo_path = db.Column(db.String(128))
     cellphone = db.Column(db.String(12))
+    role = db.Column(db.String(12))
 
 
 class Patient(Person):

@@ -16,14 +16,14 @@ def fetch_test_result():
     pass
 
 
-@app.route('/test_responses')
-def test_responses():
-    result = db.session.execute("""SELECT tests.name AS test_name, persons.name AS patient_name, tr.score, tr.test_result_id 
-    FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
-        INNER JOIN persons ON persons.person_id = tr.patient_id""")
-    result = [dict(x) for x in result.mappings().all()]
-    # print(type(result), type(result[0]))
-    return jsonify({'results' : result})
+# @app.route('/test_responses')
+# def test_responses():
+#     result = db.session.execute("""SELECT tests.name AS test_name, persons.name AS patient_name, tr.score, tr.test_result_id
+#     FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
+#         INNER JOIN persons ON persons.person_id = tr.patient_id""")
+#     result = [dict(x) for x in result.mappings().all()]
+#     # print(type(result), type(result[0]))
+#     return jsonify({'results' : result})
 
 
 @app.route('/show_patient_responses/<test_result_id>')
@@ -49,7 +49,7 @@ def show_patient_responses(test_result_id):
         q_choice_multidict.add(str(row['q_id']), row['choice'])
     # print(q_text_dict)
     # print(q_choice_multidict)
-    for q_id in q_choice_multidict.keys():
+    for q_id in set(q_choice_multidict.keys()):
         processed_results += [{
             "question_text" : q_text_dict[q_id],
             "options" : [{"value" : x, "checked" : (x == q_answer_dict[q_id])} for x in list(q_choice_multidict.getall(q_id))] }]

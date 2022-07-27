@@ -60,45 +60,45 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
+  }
 
 
-.ckbox-container-show input {
+  .ckbox-container-show input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-}
+  }
 
-/* Create a custom checkbox */
-.ckbox-checkmark-show {
+  /* Create a custom checkbox */
+  .ckbox-checkmark-show {
     position: absolute;
     top: 0;
     left: 0;
     height: 25px;
     width: 25px;
     background-color: #eee;
-}
+  }
 
-.ckbox-container-show input:checked ~ .ckbox-checkmark-show {
+  .ckbox-container-show input:checked ~ .ckbox-checkmark-show {
     background-color: #1e2627;
-}
+  }
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.ckbox-checkmark-show:after {
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .ckbox-checkmark-show:after {
     content: "";
     position: absolute;
     display: none;
-}
+  }
 
-/* Show the checkmark when checked */
-.ckbox-container-show input:checked ~ .ckbox-checkmark-show:after {
+  /* Show the checkmark when checked */
+  .ckbox-container-show input:checked ~ .ckbox-checkmark-show:after {
     display: block;
-}
+  }
 
-/* Style the checkmark/indicator */
-.ckbox-container-show .ckbox-checkmark-show:after {
+  /* Style the checkmark/indicator */
+  .ckbox-container-show .ckbox-checkmark-show:after {
     left: 9px;
     top: 5px;
     width: 5px;
@@ -108,4 +108,53 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+
+.commentInput{
+  resize: none;
 }
+
+.commentContainer{
+  display: flex;
+}
+
+.commentBtn{
+  display: inline-block;
+  padding: 8px;
+  text-align: center;
+  margin-top: 5ex;
+  border-radius: 10px 10px 10px 10px;
+  color:white;
+  background-color: gray;
+  margin-left: 3%;
+}
+.commentBtn:hover{
+  background-color: #1e2627;
+}
+
+.commentSpan{
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+
+.notifyBtn{
+  display: inline-block;
+  padding: 8px;
+  text-align: center;
+  margin-top: 2ex;
+  border-radius: 10px 10px 10px 10px;
+  color:white;
+  background-color: gray;
+  margin-left: 2%;
+}
+.notifyBtn:hover{
+  background-color: #1e2627;
+}
+
+.notifySpan{
+  display: inline-block;
+  cursor: pointer;
+}
+

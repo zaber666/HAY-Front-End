@@ -2,6 +2,7 @@ import React from 'react'
 import "./ScoreNDResponse.css"
 import { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom";
+import {getToken} from "./Variables";
 
 const ScoreNDResponse = () => {
 
@@ -17,7 +18,8 @@ const ScoreNDResponse = () => {
   }, [])
 
   const fetchResponses = async () => {
-    const res = await fetch('/test_responses')
+    const res = await fetch('/test_responses', {method: "GET", headers: {'Accept': 'application/vnd.api+json'
+                            , 'x-access-token': getToken() }})
     const data = await res.json()
 
     return data.results
@@ -32,7 +34,7 @@ const ScoreNDResponse = () => {
         <hr className='line-psy'></hr>
 
 
-        <div className="table-wrapper-cross-y content-table">
+        <table className="table-wrapper-cross-y content-table">
           <thead>
           <tr>
             <th>Test Name</th>
@@ -58,7 +60,7 @@ const ScoreNDResponse = () => {
             )
           }
           </tbody>
-        </div>
+        </table>
 
 
       </div>
