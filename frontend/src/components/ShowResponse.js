@@ -1,9 +1,11 @@
 import React from 'react'
 import "./ShowResponse.css"
 import { useEffect, useState } from 'react'
-import {getToken} from "./Variables";
-
+import {getToken, getPersonId} from "./Variables";
+import {useNavigate} from "react-router-dom";
 const ShowResponse = (props) => {
+    
+    const navigate = useNavigate()
 
     const [responseee, setResponse] = useState({
         patient_name: 'sx', height_inches: -5, weight_kgs: -7, patient_location: 'milky way'
@@ -36,40 +38,56 @@ const ShowResponse = (props) => {
 
     }, [])
 
-    const commentUpload = async (comment) => {
-        const res = await fetch('http://localhost:5000/submit_comment/' + props.testResultId,
-            {
-                method: "POST", 
-                headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
-                body: JSON.stringify(comment)
-            }
-        )
-        const data = await res.json()
-    }
+    // const commentUpload = async (comment) => {
+    //     const res = await fetch('http://localhost:5000/submit_comment/' + props.testResultId,
+    //         {
+    //             method: "POST", 
+    //             headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
+    //             body: JSON.stringify(comment)
+    //         }
+    //     )
+    //     const data = await res.json()
+    // }
 
-    const onCommentPost = (e) => {
+
+    // const onCommentPost = (e) => {
+    //     e.preventDefault();
+
+        
+    // }
+
+    const uploadReport = async(e) => {
         e.preventDefault();
 
         if(!comment){
             alert("Comment is empty");
             return;
         }
-        commentUpload({comment});
-        setComment('');
-    }
+        // commentUpload({comment});
+        
 
-    const uploadDisorders = async(e) => {
-        e.preventDefault();
-
-        const res = await fetch('http://localhost:5000/disorder_suggestions/' + props.testResultId,
+        const res = await fetch('http://localhost:5000/submit_review_report/' + props.testResultId,
             {
                 method: "POST",
                 headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
-                body: JSON.stringify(responseDisorders)
+                body: JSON.stringify({"test_result_id" : props.testResultId, "verifier_id" : getPersonId(),  "disorder" : responseDisorders, "comment" : comment })
             }
         )
+
+        setComment('');
+        // setResponseDisorder({});
+        resetDiseaseList(e);
+        // console.log({"test_result_id" : props.testResultId, "disorder" : responseDisorders, "comment" : comment })
         const data = await res.json()
+        if (data["response"] === "success"){
+            navigate('/psyhome')
+        }
+        else{
+            alert("Something went wrong")
+        }
     }
+
+
 
 
     const fetchResponse = async (trId) => {
@@ -101,10 +119,21 @@ const ShowResponse = (props) => {
         return _data
     }
 
+    const resetDiseaseList = (e) => {
+        var tempDict = {}
+        for (const [key, value] of Object.entries(responseDisorders)){
+            tempDict[key] = false
+        }
+        setResponseDisorder(tempDict)
+        // console.log("Temp Dict"  +Object.entries( tempDict))
+
+    }
+
 
 
     const handleList = (e) => {
         var tempDict = {}
+        console.log("Handle List")
         for (const [key, value] of Object.entries(responseDisorders)){
             tempDict[key] = value
         }
@@ -202,9 +231,9 @@ const ShowResponse = (props) => {
             <div className='commentContainer'>
                 <textarea className='commentInput' rows="5" cols="70" placeholder='Enter Sugesstions' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
 
-                <div className="commentBtn" onClick={onCommentPost}>
+                {/* <div className="commentBtn" onClick={onCommentPost}>
                     <span className='commentSpan'>Comment</span>
-                </div>
+                </div> */}
             </div>
 
 
@@ -217,7 +246,7 @@ const ShowResponse = (props) => {
                         <div className='optionContainer'>
 
                             <label className="ckbox-container-show">{disorder}
-                                <input type="checkbox" value={disorder} onChange={(e) => handleList(e)}/>
+                                <input checked = {responseDisorders[disorder]} type="checkbox" value={disorder} onChange={(e) => handleList(e)}/>
                                 <span className="ckbox-checkmark-show"></span>
 
                             </label>
@@ -227,7 +256,7 @@ const ShowResponse = (props) => {
                 )
             }
 
-            <div className="notifyBtn" onClick={uploadDisorders}>
+            <div className="notifyBtn" onClick={uploadReport}>
                 <span className='notifySpan'>Notify</span>
             </div>
 

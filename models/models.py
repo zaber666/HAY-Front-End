@@ -2,6 +2,7 @@ from enum import unique
 from app import db
 
 
+
 # extend db.Model to create Person with name, email, password_hash, dob, gender, phone_number, photo_path, and role
 #
 class Person(db.Model):
@@ -58,6 +59,7 @@ PsychiatristDegree = db.Table('psychiatrist_degree',
                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
                                 db.Column('degree_id', db.Integer, db.ForeignKey('degrees.degree_id'), primary_key=True)
                               )
+
 
 
 class Role(db.Model):
