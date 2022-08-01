@@ -68,9 +68,21 @@ class TestResult(db.Model):
 
 
 CounsellingSuggestion = db.Table('counselling_suggestion',
-                                 db.Column('test_result_id', db.Integer, db.ForeignKey('test_results.test_result_id'), primary_key=True),
-                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True)
+                                 db.Column('counsel_id', db.Integer, primary_key=True),
+                                 db.Column('test_result_id', db.Integer, db.ForeignKey('test_results.test_result_id')),
+                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'))
                                  )
 
+
+class ConsultationRequest(db.Model):
+    __tablename__ = 'consultation_request'
+    consultation_request_id = db.Column(db.Integer, primary_key=True)
+    counsel_id = db.Column(db.Integer,nullable=False)
+    test_result_id = db.Column(db.Integer, db.ForeignKey('test_results.test_result_id'), nullable=False)
+    info = db.Column(db.String(256))
+    approved = db.Column(db.Boolean, default=False)
+    schedule = db.Column(db.String(256))
+    method = db.Column(db.String(64))
+    fee = db.Column(db.Integer)
 
 
