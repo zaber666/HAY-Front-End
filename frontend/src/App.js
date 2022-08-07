@@ -16,6 +16,7 @@ import {ListQuestionsOfATest} from "./components/Questionnaire";
 import ShowResponse from "./components/ShowResponse";
 import ScoreNDResponse from "./components/ScoreNDResponse";
 import VerifiedReport from './components/VerifiedReport';
+import {CreateFileRequest} from "./components/FileRequest";
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
                     <Route path="/pending_test_results" element={<ScoreNDResponse/>} />
                     <Route path="/test_result/:trId" element={<RenderTestResult />}/>
 
+                    <Route path="/create_file_request" element={<CreateFileRequest />} />
                 </Routes>
 
                 <Footer/>
