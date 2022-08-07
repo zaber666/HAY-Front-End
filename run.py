@@ -6,6 +6,7 @@ from take_questionnaire import *
 import flask_restless
 from multidict import MultiDict
 from check_test_reponses_controller import *
+from file_requests import *
 from check_test_reponses import *
 
 from models.export import *
@@ -42,6 +43,7 @@ manager.create_api(Question, methods=['GET', 'POST'], preprocessors={'GET_COLLEC
 manager.create_api(TestResult, methods=['GET', 'POST', 'PATCH'], collection_name='tr', preprocessors={'GET_COLLECTION':[is_patient_logged_in], 'GET_RESOURCE':[is_patient_logged_in], 'POST_RESOURCE':[is_patient_logged_in]})
 
 manager.create_api(Disease, methods=['GET'])
+manager.create_api(FileRequest, methods=['GET'], collection_name='fr') 
 
 manager.init_app(app)
 
