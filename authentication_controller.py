@@ -7,7 +7,7 @@ from flask import request, jsonify, make_response
 from werkzeug.security import check_password_hash
 
 from app import app, db
-from models.models import Person, Patient, Psychiatrist
+from models.models import Person, Patient, Psychiatrist, ReviewBoardMember
 
 
 def generic_token_required(user_type, f):
@@ -23,10 +23,6 @@ def generic_token_required(user_type, f):
         try:
             print('PRINTING DATA')
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-            print(data)
-            # user = Person.query.filter_by(person_id=data['person_id']).first()
-            # print('PRINTING DATA 2')
-            # if user.role == user_type:
             if user_type == 'patient':
                 current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
             elif user_type == 'psychiatrist':
@@ -45,12 +41,37 @@ def generic_token_required(user_type, f):
 token_required = lambda f : generic_token_required('person', f)
 patient_token_required = lambda f : generic_token_required('patient', f)
 psychiatrist_token_required = lambda f : generic_token_required('psychiatrist', f)
+is_review_board_member = lambda f : is_review_board_member(f)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
 @token_required
 def generic_logout():
     jwt.encode(dict())
+
+
+def is_review_board_member(f):
+    @wraps(f)
+    def generic_decorator(*args, **kwargs):
+        token = None
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+            print('Token in generic decorator', token)
+        if not token:
+            print('Token is missing')
+            return jsonify({'message': 'Token is missing!'}), 401
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+            current_user = ReviewBoardMember.query.filter_by(board_member_id=data['psychiatrist_id']).first()
+            if current_user is None:
+                return jsonify({'message': 'You are not an authorized Review Board Member!'}), 401
+        except:
+            print('Token is invalid for Review Board Member')
+            return jsonify({'message': 'Token is invalid!'}), 401
+        # print('Returning')
+        return f(current_user, *args, **kwargs)
+    return generic_decorator
+
 
 
 def generic_login(auth):
@@ -63,7 +84,7 @@ def generic_login(auth):
     elif user.role == 'psychiatrist':
         id_name = 'psychiatrist_id'
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
-        token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=60)},
+        token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=600)},
                            app.config['SECRET_KEY'])
         return make_response(jsonify({'token': token}, {'id_name': id_name}, {'person_id': user.person_id}
                                         , {'name': user.name}), 201)

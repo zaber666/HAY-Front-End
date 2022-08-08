@@ -34,7 +34,12 @@ class Psychiatrist(Person):
     is_verified = db.Column(db.Boolean, default=False)
     available_times = db.Column(db.String(256))
     certificate_id = db.Column(db.String(32))
+    fee = db.Column(db.Integer)
 
+class ReviewBoardMember(Psychiatrist):
+    __tablename__ = 'review_board_member'
+    board_member_id = db.Column(db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True) # foreign key to psychiatrist_id
+    joined_as_board_member = db.Column('joined_as_board_member', db.DateTime)
 
 class Award(db.Model):
     __tablename__ = 'awards'

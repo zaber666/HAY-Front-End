@@ -1,0 +1,119 @@
+from email.policy import default
+from ssl import Options
+from venv import create
+from models.qa_models import Question,Option, TestQuestion
+from models.disease_models import TestResultDisease, PsychiatristDisease ,Disease
+from models.models import Person
+from flask import request
+import jwt
+from app import app,db
+from check_test_reponses_controller import *
+from authentication_controller import psychiatrist_token_required, patient_token_required,is_review_board_member
+from datetime import datetime
+import random
+
+@app.route('/test/<test_id>/add_question', methods=['POST'])
+@psychiatrist_token_required
+def add_question(_,test_id):
+    question = Question(question_text=request.json['text'],created_at = datetime.now(), is_approved = False)
+    db.session.add(question)
+    db.session.commit()
+    db.session.refresh(question)
+    print(question.question_id)
+    for option in request.json['options']:
+        opt = Option(option_text=option['text'],question_id=question.question_id, score = option['score'])
+        db.session.add(opt)
+    db.session.commit()
+    stmt = TestQuestion.insert().values(test_id=test_id, question_id=question.question_id, is_approved = False)
+    db.session.execute(stmt)
+    db.session.commit()
+    return jsonify({"response" :'success'})
+
+
+@app.route('/test/<test_id>/get_all_questions', methods=['GET'])
+@psychiatrist_token_required
+def get_all_questions(_,test_id):
+    questions = db.session.query(TestQuestion).filter_by(test_id=test_id).filter_by(is_approved=True).all()
+    #2nd Item is the question ID
+    question_ids = [x[1] for x in questions]
+    all_questions = []
+    for question in question_ids:
+        q_dict = {}
+        result = db.session.query(Question).filter_by(question_id=question).first()
+        q_dict["questionText"] = result.question_text
+        q_dict["id"] = result.question_id
+        q_dict["options"] = [{"id": x.option_id, "value" : x.option_text} for x in result.options]
+        all_questions.append(q_dict)
+    return jsonify({"questions" : all_questions})
+
+
+
+@app.route('/test/<test_id>/delete_question/<q_id>', methods=['POST'])
+@psychiatrist_token_required
+def delete_question(_,test_id,q_id):
+    stmt = TestQuestion.update().where(TestQuestion.c.test_id == test_id)\
+        .where(TestQuestion.c.question_id == q_id).values(pending_delete = True)
+    db.session.execute(stmt)
+    db.session.commit()
+    return jsonify({"response" :'success'})
+
+
+@app.route('/approve_question/<test_id>/<q_id>', methods=['POST'])
+@is_review_board_member
+def approve_question(_,test_id,q_id):
+    stmt = TestQuestion.update().where(TestQuestion.c.question_id == q_id).\
+            where(TestQuestion.c.test_id == test_id).values(is_approved = True)
+    db.session.execute(stmt)
+    q = Question.query.filter_by(question_id=q_id).first()
+    q.is_approved = True
+    db.session.commit()
+    return jsonify({"response" :'success'})
+
+
+@app.route('/reject_question/<test_id>/<q_id>', methods=['POST'])
+@is_review_board_member
+def reject_question(_,test_id,q_id):
+
+
+    stmt = TestQuestion.delete().where(TestQuestion.c.question_id == q_id)\
+                        .where(TestQuestion.c.is_approved == False).where(TestQuestion.c.test_id == test_id)
+    db.session.execute(stmt)
+    db.session.commit()
+    if db.session.query(TestQuestion).filter_by(question_id=q_id).first() is None:
+        q = Question.query.filter_by(question_id=q_id).delete()
+        db.session.commit()
+        db.session.query(Option).filter(Option.question_id==q_id).delete()
+        db.session.commit()
+        return jsonify({"response" :'success'})
+    else:
+        return jsonify({"response" :'Quetion has no pending approval'})
+
+
+@app.route('/approve_delete_question/<test_id>/<q_id>', methods=['POST'])
+@is_review_board_member
+def approve_delete_question(_,test_id,q_id):
+
+    
+    stmt = TestQuestion.delete().where(TestQuestion.c.question_id == q_id)\
+                        .where(TestQuestion.c.pending_delete == True).where(TestQuestion.c.test_id == test_id)
+    out = db.session.execute(stmt)
+    db.session.commit()
+    if db.session.query(TestQuestion).filter_by(question_id=q_id).first() is None:
+        q = Question.query.filter_by(question_id=q_id).delete()
+        db.session.commit()
+
+        Option.query.filter_by(question_id=q_id).delete()
+        db.session.commit()
+        return jsonify({"response" :'success'})
+    else:
+        return jsonify({"response" :'Question still has no pending delete'})
+
+@app.route('/reject_delete_question/<test_id>/<q_id>', methods=['POST'])
+@is_review_board_member
+def reject_delete_question(_,test_id,q_id):
+    stmt = TestQuestion.update().where(TestQuestion.c.question_id == q_id)\
+                        .where(TestQuestion.c.pending_delete == True).where(TestQuestion.c.test_id == test_id)\
+                        .values(pending_delete = False)
+    db.session.execute(stmt)
+    db.session.commit()
+    return jsonify({"response" :'success'})

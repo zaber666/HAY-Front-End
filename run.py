@@ -3,6 +3,7 @@ import json
 from authentication import *
 from authentication_controller import patient_token_required
 from take_questionnaire import *
+from questionnaire_update import *
 import flask_restless
 from multidict import MultiDict
 from check_test_reponses_controller import *

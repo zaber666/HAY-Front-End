@@ -5,7 +5,8 @@ import datetime
 TestQuestion = db.Table('test_question',
                         db.Column('test_id', db.Integer, db.ForeignKey('tests.test_id'), primary_key=True),
                         db.Column('question_id', db.Integer, db.ForeignKey('questions.question_id'), primary_key=True),
-                        db.Column('is_approved', db.Boolean, default=False)
+                        db.Column('is_approved', db.Boolean, default=False),
+                        db.Column('pending_delete', db.Boolean, default=False)
                         )
 
 

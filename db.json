@@ -210,51 +210,61 @@
     "Cold": false,
     "Headache": true
   },
-
-  "verifiedReports":[
+  "verifiedReports": [
     {
-      "reportId" : 1,
-      "psychiatrist":"Md. Mahbubur Rahman",
-      "time" : "8:53 PM, July 21th, 2022",
+      "reportId": 1,
+      "psychiatrist": "Md. Mahbubur Rahman",
+      "time": "8:53 PM, July 21th, 2022",
       "systemScore": "morse",
-      "sugesstions":"eat, sleep, conquer repeat!!",
-      "suggestedPsychiatrists":[
+      "sugesstions": "eat, sleep, conquer repeat!!",
+      "suggestedPsychiatrists": [
         "MA. Adnan Mollah",
         "Faizur Rahman"
       ]
     },
     {
-      "reportId" : 2,
-      "psychiatrist":"Md. Mahfuzur Rahman",
-      "time" : "8:59 AM, July 19th, 2022",
+      "reportId": 2,
+      "psychiatrist": "Md. Mahfuzur Rahman",
+      "time": "8:59 AM, July 19th, 2022",
       "systemScore": "bachbe",
-      "sugesstions":"give up on your dreams and die",
-      "suggestedPsychiatrists":[
+      "sugesstions": "give up on your dreams and die",
+      "suggestedPsychiatrists": [
         "MA. Sohel Rahman",
         "Pritam Kumar"
       ]
     },
     {
-      "reportId" : 3,
-      "psychiatrist":"Md. Fazlul Karim",
-      "time" : "8:57 AM, July 19th, 2022",
+      "reportId": 3,
+      "psychiatrist": "Md. Fazlul Karim",
+      "time": "8:57 AM, July 19th, 2022",
       "systemScore": "neutral",
-      "sugesstions":"piece of shit",
-      "suggestedPsychiatrists":[
+      "sugesstions": "piece of shit",
+      "suggestedPsychiatrists": [
         "MA. Adnan Rahman",
         "Pritam Kumar"
       ]
     }
-
   ],
-
-  "consultationRequest" :
-  {
-    "test_result_id" : 81,
-    "consultant_id" : 9,
-    "info" : "Hello World",
-    "schedule" : "Majh Rate",
-    "method" : "Video Call",
-    "fee" : 5000
+  "consultationRequest": {
+    "test_result_id": 81,
+    "consultant_id": 9,
+    "info": "Hello World",
+    "schedule": "Majh Rate",
+    "method": "Video Call",
+    "fee": 5000
   }
+}
+
+"question": {
+  "text": "Kemon Acho?",
+  "options": [
+    {
+      "text": "Valo",
+      "score" : 1
+    },
+    {
+      "text": "Valo Na",
+      "score" : 0
+    }
+  ]
 }
