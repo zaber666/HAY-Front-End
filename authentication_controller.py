@@ -23,6 +23,7 @@ def generic_token_required(user_type, f):
         try:
             print('PRINTING DATA')
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+            print(data)
             if user_type == 'patient':
                 current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
             elif user_type == 'psychiatrist':
@@ -30,7 +31,8 @@ def generic_token_required(user_type, f):
                 print(current_user)
             else:
                 return jsonify({'message': 'Token is invalid!'}), 401
-        except:
+        except Exception as e:
+            print(e)
             print('Token is invalid for', user_type)
             return jsonify({'message': 'Token is invalid!'}), 401
         print('Returning')

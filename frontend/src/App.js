@@ -16,7 +16,7 @@ import {ListQuestionsOfATest} from "./components/Questionnaire";
 import ShowResponse from "./components/ShowResponse";
 import ScoreNDResponse from "./components/ScoreNDResponse";
 import VerifiedReport from './components/VerifiedReport';
-// import {CreateFileRequest} from "./components/FileRequest";
+import {CreateFileRequest} from "./components/FileRequest";
 
 function App() {
 
@@ -25,7 +25,7 @@ function App() {
     const [showLogoutModal, changeLogoutModal] = useState(false);
     const [signupModal, changeSignupModal] = useState(false);
 
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    // const [cookies, setCookie, removeCookie] = useCookies(-['user']);
 
     function RenderTest() {
         return <ListQuestionsOfATest testId={useParams().testId}/>
@@ -61,7 +61,7 @@ function App() {
                     <Route path="/pending_test_results" element={<ScoreNDResponse/>} />
                     <Route path="/test_result/:trId" element={<RenderTestResult />}/>
 
-                    {/* <Route path="/create_file_request" element={<CreateFileRequest />} /> */}
+                    <Route path="/create_file_request" element={<CreateFileRequest />} />
                 </Routes>
 
                 <Footer/>

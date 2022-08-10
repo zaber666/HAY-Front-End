@@ -1,14 +1,13 @@
 import React from 'react'
-import {clearAll} from "./Variables";
-import {useNavigate} from "react-router-dom";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 import "./FileRequest.css";
+import {useNavigate} from "react-router-dom";
+import {getToken} from "./Variables";
 
 export function CreateFileRequest() {
 
     const [title, setTitle] = React.useState("");
     const [desc, setDesc] = React.useState("");
+    const navigate = useNavigate();
 
     const submit = async (title, desc) => {
         console.log("Just in submit", title, desc);
@@ -18,18 +17,28 @@ export function CreateFileRequest() {
                 headers: {
                     'Content-type': 'application/vnd.api+json'
                     , 'Accept': 'application/vnd.api+json'
+                    , 'x-access-token': getToken()
                 },
                 body: JSON.stringify({
                     'title' : title, 'desc' : desc
                 })
             }
         );
-        console.log(res)
+        return res;
     }
 
     return (
         <div className="reqForm">
-            <form onSubmit={() => {submit(title, desc)}}>
+            <form onSubmit={(e) => {e.preventDefault(); submit(title, desc).then(
+                (response) => {
+                    if(response.ok) {
+                        alert("Thanks for uploading the file request. It will be checked by review board members.");
+                        navigate('/psyhome');
+                    } else {
+                        alert("Please try again");
+                    }
+                }
+            );}}>
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Request Title</label>
                     <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
