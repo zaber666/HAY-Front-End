@@ -2,7 +2,8 @@ import React from 'react'
 import "./ScoreNDResponse.css"
 import { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom";
-import {getToken} from "./Variables";
+import {getIdType, getToken} from "./Variables";
+import {saveAs} from "file-saver";
 
 const ScoreNDResponse = () => {
 
@@ -21,6 +22,16 @@ const ScoreNDResponse = () => {
     const res = await fetch('/vfr', {method: "GET", headers: {'Accept': 'application/vnd.api+json'
                             , 'x-access-token': getToken() }})
     const data = await res.json()
+    console.log(data)
+    return data
+  }
+
+  const download = async (id) => {
+    console.log("In download")
+    const res = await fetch('/vfu/' + id, {method: "GET", headers: {'Accept': 'application/vnd.api+json'
+                            , 'x-access-token': getToken() }})
+    const data = await res.blob()
+    saveAs(data, id + ".zip")
     console.log(data)
     return data
   }
@@ -48,8 +59,14 @@ const ScoreNDResponse = () => {
                       <td>{response.title}</td>
                       {/* TODO: insert a l
                       ink to */}
-                      <td><div className='response-text' onClick={() => navigate('/file_request/' + response.file_request_id)}>View Details</div></td><br/> <br/>
-                    </tr>
+                      { (getIdType() === 'person_id') ?
+                      <td><div className='response-text' onClick={() => navigate('/file_request/' + response.file_request_id)}>View Details</div></td>
+                      : (
+                          getIdType() === 'psychiatrist_id' ?
+                        <td><div className='response-text' onClick={() => download(response.file_request_id)}>Download</div></td>
+                      : <h1></h1> )}
+                      <br/> <br/>
+                      </tr>
                 )
             )
           }

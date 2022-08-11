@@ -2,7 +2,8 @@ from datetime import datetime
 
 import jwt
 import os
-from flask import request, jsonify
+import subprocess
+from flask import request, jsonify, send_file
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
@@ -64,3 +65,10 @@ def upload_a_file(_, frID):
     db.session.add(file_upload)
     db.session.commit() # commit the file upload
     return "OK"
+
+
+@app.route('/vfu/<int:frID>')
+def download_files(frID):
+    fr_dir = os.path.join(app.config['UPLOAD_FOLDER'], str(frID))
+    subprocess.call("zip tmp.zip -r " + fr_dir, shell=True)
+    return send_file("tmp.zip", as_attachment=True)
