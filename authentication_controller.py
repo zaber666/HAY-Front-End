@@ -14,6 +14,7 @@ def generic_token_required(user_type, f):
     @wraps(f)
     def generic_decorator(*args, **kwargs):
         token = None
+        print(request.headers)
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
             print('Token in generic decorator', token)
@@ -24,9 +25,9 @@ def generic_token_required(user_type, f):
             print('PRINTING DATA')
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
             print(data)
-            if user_type == 'patient':
+            if user_type == 'patient' or ('patient_id' in data.keys()):
                 current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
-            elif user_type == 'psychiatrist':
+            elif user_type == 'psychiatrist' or ('psychiatrist_id' in data.keys()):
                 current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
                 print(current_user)
             else:

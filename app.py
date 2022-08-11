@@ -11,6 +11,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/mhst'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@db/mhst'   #FOR SRJ
 
+app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'HahaNoSecret'
 app.secret_key = 'NoSecretEither'

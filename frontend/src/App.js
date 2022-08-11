@@ -17,6 +17,11 @@ import ShowResponse from "./components/ShowResponse";
 import ScoreNDResponse from "./components/ScoreNDResponse";
 import VerifiedReport from './components/VerifiedReport';
 import {CreateFileRequest} from "./components/FileRequest";
+import ApprovedFileRequests from "./components/ApprovedFileRequests";
+import {ViewFileRequest} from "./components/ViewFileRequest";
+import {Upload} from "./components/Upload";
+
+
 
 function App() {
 
@@ -33,6 +38,10 @@ function App() {
 
     function RenderTestResult() {
         return <ShowResponse testResultId={useParams().trId} />
+    }
+
+    function RenderFileRequest() {
+        return <ViewFileRequest frID={useParams().frID} />
     }
 
     return (
@@ -62,6 +71,10 @@ function App() {
                     <Route path="/test_result/:trId" element={<RenderTestResult />}/>
 
                     <Route path="/create_file_request" element={<CreateFileRequest />} />
+                    <Route path="/approved_file_requests" element={<ApprovedFileRequests />} />
+                    <Route path="/file_request/:frID" element={<RenderFileRequest />} />
+
+                    {/*<Route path="/upl" element={<Upload/>} />*/}
                 </Routes>
 
                 <Footer/>

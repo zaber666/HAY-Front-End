@@ -18,29 +18,25 @@ const ScoreNDResponse = () => {
   }, [])
 
   const fetchResponses = async () => {
-    const res = await fetch('/test_responses', {method: "GET", headers: {'Accept': 'application/vnd.api+json'
+    const res = await fetch('/vfr', {method: "GET", headers: {'Accept': 'application/vnd.api+json'
                             , 'x-access-token': getToken() }})
     const data = await res.json()
-
-    return data.results
+    console.log(data)
+    return data
   }
 
 
   return(
       <div className='container'>
-
-
-        <div className='test-name'>Patient Scores And Responses</div>
+        <div className='test-name'>Incoming File Requests</div>
         <hr className='line-psy'></hr>
 
 
         <table className="table-wrapper-cross-y content-table">
           <thead>
           <tr>
-            <th>Test Name</th>
-            <th>Patient Name (to be anonymized later)</th>
-            <th>System Score</th>
-            <th>Response</th>
+            <th>Title</th>
+            <th>View</th>
           </tr>
           </thead>
 
@@ -49,12 +45,10 @@ const ScoreNDResponse = () => {
             responses.map(
                 (response) => (
                     <tr>
-                      <td>{response.test_name}</td>
-                      <td>{response.patient_name}</td>
-                      <td>{response.score}</td>
+                      <td>{response.title}</td>
                       {/* TODO: insert a l
                       ink to */}
-                      <td><div className='response-text' onClick={() => navigate('/test_result/' + response.test_result_id)}>Get Response</div></td><br/> <br/>
+                      <td><div className='response-text' onClick={() => navigate('/file_request/' + response.file_request_id)}>View Details</div></td><br/> <br/>
                     </tr>
                 )
             )

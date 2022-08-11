@@ -1,5 +1,4 @@
 from app import db
-import datetime
 
 # many-to-many relationship TestQuestion  between Test and Question
 TestQuestion = db.Table('test_question',
