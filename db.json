@@ -219,8 +219,8 @@
       "systemScore": "morse",
       "sugesstions":"eat, sleep, conquer repeat!!",
       "suggestedPsychiatrists":[
-        "MA. Adnan Mollah",
-        "Faizur Rahman"
+        {"name": "MA. Adnan Rahman", "id": 1},
+        {"name" :"Md. Fazlul Karim", "id":2}
       ]
     },
     {
@@ -230,8 +230,8 @@
       "systemScore": "bachbe",
       "sugesstions":"give up on your dreams and die",
       "suggestedPsychiatrists":[
-        "MA. Sohel Rahman",
-        "Pritam Kumar"
+        {"name": "MA. Adnan Rahman", "id": 1},
+        {"name" :"Md. Fazlul Karim", "id":2}
       ]
     },
     {
@@ -241,10 +241,54 @@
       "systemScore": "neutral",
       "sugesstions":"piece of shit",
       "suggestedPsychiatrists":[
-        "MA. Adnan Rahman",
-        "Pritam Kumar"
+        {"name": "MA. Adnan Rahman", "id": 1},
+        {"name" :"Md. Fazlul Karim", "id":2}
       ]
     }
 
+  ],
+
+  "psychiatrists_details":[
+    {
+      "id":1,
+      "name":"MA. Adnan Rahman",
+      "designation": "Cancer Specialist",
+      "cell": 42042069,
+      "email": "johndoe@gmail.com",
+      "area_of_expertise":[
+        "cancer", "skin", "bone"
+      ],
+      "awards": [
+        "some random award",
+        "random award with too big name random award with too big name random award with too big name random award with too big name random award with too big name"
+      ],
+      "available_hours" : [
+        {"id":1, "datetime":"Monday 6pm - 8pm"},
+        {"id":2, "datetime":"Tuesday 7pm - 10pm"},
+        {"id":3, "datetime":"Wednesday 6pm - 8pm"},
+        {"id":4, "datetime":"Friday 5pm - 9pm"}
+      ]
+    },
+
+    {
+      "id":2,
+      "name":"Md. Fazlul Karim",
+      "designation": "Bone Specialist",
+      "cell": 6942069,
+      "email": "janedoe@gmail.com",
+      "area_of_expertise":[
+        "cancer", "skin", "bone", "brain"
+      ],
+      "awards": [
+        "some random award",
+        "random award with too big name random award with too big name random award with too big name random award with too big name random award with too big name"
+      ],
+      "available_hours" : [
+        {"id":1, "datetime":"Sunday 6pm - 8pm"},
+        {"id":2, "datetime":"Tuesday 7pm - 10pm"},
+        {"id":3, "datetime":"Wednesday 6pm - 8pm"},
+        {"id":4, "datetime":"Friday 5pm - 9pm"}
+      ]
+    }
   ]
 }
