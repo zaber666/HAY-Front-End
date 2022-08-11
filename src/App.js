@@ -16,7 +16,7 @@ import VerifiedReports from './VerifiedReports';
 
 function App() {
 
-  const userLoggedIn = false;
+  const userLoggedIn = true;
   const [showLoginModal, changeLoginModal] = useState(false);
   const [showLogoutModal, changeLogoutModal] = useState(false);
   const [signupModal, changeSignupModal] = useState(false);
@@ -41,9 +41,9 @@ function App() {
           } />
 
           <Route path="" element={
-            // <Talks changeModalFn={() => changeLoginModal(true)} />
+            <Talks changeModalFn={() => changeLoginModal(true)} />
             // <ShowResponse />
-            <VerifiedReports />
+            // <VerifiedReports />
           } />
 
           <Route path="tests" element={
