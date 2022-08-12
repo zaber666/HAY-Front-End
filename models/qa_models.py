@@ -70,7 +70,7 @@ class TestResult(db.Model):
 CounsellingSuggestion = db.Table('counselling_suggestion',
                                  db.Column('counsel_id', db.Integer, primary_key=True),
                                  db.Column('test_result_id', db.Integer, db.ForeignKey('test_results.test_result_id')),
-                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'))
+                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'))   #consultant
                                  )
 
 

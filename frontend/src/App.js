@@ -15,7 +15,7 @@ import Questions from './components/Questions';
 import {ListQuestionsOfATest} from "./components/Questionnaire";
 import ShowResponse from "./components/ShowResponse";
 import ScoreNDResponse from "./components/ScoreNDResponse";
-import VerifiedReport from './components/VerifiedReport';
+import VerifiedReports from './components/VerifiedReport';
 import {CreateFileRequest} from "./components/FileRequest";
 import ApprovedFileRequests from "./components/ApprovedFileRequests";
 import {ViewFileRequest} from "./components/ViewFileRequest";
@@ -65,7 +65,7 @@ function App() {
                     <Route path="/psyhome" element={<PsyHome/>}/>
                     <Route path="/questions" element={<Questions/>}/>
                     <Route path={"/"} element=<Talks changeModalFn={() => changeLoginModal(true)}/> />
-                    <Route path="/show_verified_reports" element={ <VerifiedReport />} />
+                    <Route path="/show_verified_reports" element={ <VerifiedReports />} />
 
                     <Route path="/pending_test_results" element={<ScoreNDResponse/>} />
                     <Route path="/test_result/:trId" element={<RenderTestResult />}/>

@@ -14,7 +14,7 @@ def generic_token_required(user_type, f):
     @wraps(f)
     def generic_decorator(*args, **kwargs):
         token = None
-        print(request.headers)
+        # print(request.headers)
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
             print('Token in generic decorator', token)
@@ -22,7 +22,7 @@ def generic_token_required(user_type, f):
             print('Token is missing', user_type)
             return jsonify({'message': 'Token is missing!'}), 401
         try:
-            print('PRINTING DATA')
+            # print('PRINTING DATA')
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
             print(data)
             if user_type == 'patient' or ('patient_id' in data.keys()):
