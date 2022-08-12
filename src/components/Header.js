@@ -7,10 +7,15 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
 
     const [showNotificationModal, setShowNotificationModal] = useState(false)
     const [showRequestModal, setShowRequestModal] = useState(false)
-    const [requestList, setRequestList] = useState([])
+    const [showNotoficationList, setShowNotificationList] = useState(false)
 
-    const notificationClicked = (type) => {
-        if (type === "CR"){
+    const [requestList, setRequestList] = useState([])
+    const [patientNotifications, setPatientNotifications] = useState([])
+
+    const isPatient = true;
+
+    const typeOfNotificationClicked = (type) => {
+        if (type === "consultancyRequest"){
             setShowNotificationModal(false)
 
             // const requests = fetchConsulationRequest(id)
@@ -25,6 +30,22 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
             setRequestList(requests)
             setShowRequestModal(true)
         }
+    }
+    const notificationButtonClicked = () => {
+        if(isPatient){
+            const notifications = [
+                {"id":1, "text":"Doctor A accepted your counselling request", "time":"Sunday 8PM"},
+                {"id":2, "text":"Doctor B accepted your counselling request", "time":"Sunday 8PM"},
+                {"id":3, "text":"Doctor C accepted your counselling request", "time":"Sunday 8PM"},
+                {"id":4, "text":"Doctor D accepted your counselling request", "time":"Sunday 8PM"}
+            ]
+            setPatientNotifications(notifications)
+            setShowNotificationList(true)
+        }
+        else{
+            setShowNotificationModal(!showNotificationModal)
+        }
+
     }
 
     const fetchConsulationRequest = async (id) => {
@@ -53,7 +74,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                 <div style={{width: "30%"}} className='header-right'>
                     {loggedIn ? (<div className='rad-box-name' onClick={cngLogoutModalFn}> Zaber</div>) : (<div className='login-btn' onClick={changeLoginModalFn}> Login</div>)}
                     
-                    {loggedIn ? (<div className='rad-box' onClick={() => setShowNotificationModal(!showNotificationModal)}>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
+                    {loggedIn ? (<div className='rad-box' onClick={() => notificationButtonClicked() }>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
                 </div>
 
             </div>
@@ -69,7 +90,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                             <div className='detailContainer1'>
 
                                 <hr className='line-psy' style={{width:"100%"}}></hr>
-                                <div className='task' onClick={() => notificationClicked("CR")}>
+                                <div className='task' onClick={() => typeOfNotificationClicked("consultancyRequest")}>
                                     Consultation Request
                                 </div>
 
@@ -119,6 +140,30 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                                 }
                             </div>
 
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                showNotoficationList && (
+                    <div className='modal1'>
+                        <div onClick={() => setShowNotificationList(false)} className="overlay1"></div>
+                        <div className='modal-content2'>
+                            <div className='detailContainer1'>
+                                {
+                                    patientNotifications.map(
+                                        (notification) => (
+                                            <>
+                                                <div className='requestItem'>
+                                                    {notification.text}
+                                                </div>
+                                                <hr className='line-psy' style={{width:"100%"}}></hr>
+                                            </>
+                                        )
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                 )

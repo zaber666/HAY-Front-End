@@ -13,6 +13,8 @@ import Questions from './components/Questions';
 import ScoreNDResponse from './components/ScoreNDResponse';
 import ShowResponse from './components/ShowResponse';
 import VerifiedReports from './VerifiedReports';
+import AddOrDeleteQues from './components/AddOrDeleteQues';
+import AddQuestion from './components/AddQuestion';
 
 function App() {
 
@@ -41,9 +43,11 @@ function App() {
           } />
 
           <Route path="" element={
-            <Talks changeModalFn={() => changeLoginModal(true)} />
+            // <Talks changeModalFn={() => changeLoginModal(true)} />
             // <ShowResponse />
             // <VerifiedReports />
+            // <AddOrDeleteQues />
+            <AddQuestion />
           } />
 
           <Route path="tests" element={
@@ -57,6 +61,12 @@ function App() {
           <Route path="questionnaire" element={
             <Questions />
           } />
+
+          <Route path="update_questionnaire" element={
+            <Tests />
+          } />
+
+          
 
         </Routes>
 
