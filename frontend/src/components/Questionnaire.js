@@ -9,9 +9,10 @@ import {getToken} from "./Variables";
 const callRestApi = async (restEndpoint) => {
     const response = await fetch(restEndpoint, {method: "GET", headers: {'Accept': 'application/vnd.api+json'
                             , 'x-access-token': getToken()}});
-    console.log(response)
+    // console.log(response)
     const jsonResponse = await response.json();
     // console.log(jsonResponse.data.relationships.questions.data);
+    //console.log(restEndpoint + " " + jsonResponse);
     return jsonResponse;
 };
 
@@ -41,10 +42,12 @@ export function OptionText(props) {
 
      useEffect(() => {
         callRestApi(restEndPoint).then(
-            result => setApiResponse({
+            (result) => {
+
+                setApiResponse({
                 option_text: result.data.attributes.option_text,
                 option_id: result.data.attributes.option_id
-            }));
+            })});
     }, []);
 
      return (
@@ -58,7 +61,7 @@ export function OptionText(props) {
 }
 
 export function ListOptionsOfAQuestion(props) {
-    console.log('props', props)
+    // console.log('props', props)
 
     const restEndPoint = '/api/questions/' + props.questionId;
 
@@ -70,11 +73,16 @@ export function ListOptionsOfAQuestion(props) {
 
      useEffect(() => {
         callRestApi(restEndPoint).then(
-            result => setApiResponse({
-                question_text: result.data.attributes.question_text,
-                question_id: result.data.attributes.question_id,
-                options: result.data.relationships.options.data.sort((a, b) => a.id - b.id)
-            }));
+            result => {
+                console.log("RES:", result)
+                if(result.data.attributes.is_approved) {
+                    setApiResponse({
+                        question_text: result.data.attributes.question_text,
+                        question_id: result.data.attributes.question_id,
+                        options: result.data.relationships.options.data.sort((a, b) => a.id - b.id)
+                    })
+                }
+            });
     }, []);
 
      return (
@@ -107,12 +115,14 @@ export function ListQuestionsOfATest(props) {
 
     useEffect(() => {
         callRestApi(restEndPoint).then(
-            result => setApiResponse({
+            result => {setApiResponse({
                 test_name: result.data.attributes.name,
                 test_description: result.data.attributes.description,
                 test_id: result.data.test_id,
                 questions: result.data.relationships.questions.data.sort((a, b) => a.id - b.id)
-            }));
+            })
+                console.log("RES", result.json())
+            });
     }, []);
 
     return (
@@ -126,9 +136,9 @@ export function ListQuestionsOfATest(props) {
 
             <input type="submit" className="login-btn-modal" value="Submit" style={{width: '10%'}}
                 onClick={() => {
-                    console.log("Options: ", options);
+                    //console.log("Options: ", options);
                     const post_response = questionnaire_post_response(props.testId, options);
-                    console.log(post_response);
+                    //console.log(post_response);
                     callRestApiForPost('http://localhost:5000/api/tr', post_response).then(r => {console.log(r);
                         alert("Response submitted successfully!");
                     });
