@@ -33,6 +33,36 @@ const AddQuestion = () => {
         setNewOptionText("")
     }
 
+    const removeOption = (option) => {
+        console.log(option)
+        var filtered = options.filter(opt => opt !== option)
+        setOptions(filtered)
+    }
+
+    const submit = () => {
+        if(!quesBody){
+            alert("Question Body is empty !!!")
+            return
+        }
+
+        if(options.length < 1){
+            alert("No Options Given")
+            return
+        }
+
+        var response = {}
+        response["quesBody"] = quesBody
+        response["options"] = options
+        console.log(response)
+
+        //send response to backend
+        
+        setQuesBody("")
+        setOptions([])
+
+
+    }
+
     return (
         <div className='container'>
             <div >
@@ -54,16 +84,16 @@ const AddQuestion = () => {
                 <label><b>Options</b></label> 
 
                 <div>
-                    <ul style={{"margin-top":"2%"}}>
+                    <ul style={{"marginTop":"2%"}}>
                         {
                             options.map(
                                 (option) => (
-                                    <li style={{"font-size":"1.1rem"}}>
+                                    <li style={{"fontSize":"1.1rem"}}>
                                         <div style={{"display":"flex"}}>
-                                            <div style={{"margin-right":"2%"}}>
+                                            <div style={{"marginRight":"2%"}}>
                                                 {option}
                                             </div>
-                                            <FaTimes className='cross' onClick={() => {}}/>
+                                            <FaTimes className='cross' onClick={() => removeOption(option)}/>
                                         </div>
                                         
                                     </li>
@@ -85,17 +115,13 @@ const AddQuestion = () => {
                 
             </div>
 
-            
-            
-
-
             {
                 addOptionWidget && (
                     <div>
                         <label>Add New Option</label><br />
-                        <input style={{"margin-left":"0%", "width":"30%"}} type="text" placeholder="Enter Option" value={newOptionText} onChange={(e) => setNewOptionText(e.target.value)} />
+                        <input style={{"marginLeft":"0%", "width":"30%"}} type="text" placeholder="Enter Option" value={newOptionText} onChange={(e) => setNewOptionText(e.target.value)} />
                         
-                        <div style={{"margin-top":"2%"}} className='saveNDcancel'>
+                        <div style={{"marginTop":"2%"}} className='saveNDcancel'>
                             <div className='save' onClick={() => newOptionAdded()}>
                                 Save
                             </div>
@@ -107,6 +133,10 @@ const AddQuestion = () => {
                     </div>
                 )
             }
+
+            <div className='done-btn' onClick={() => submit()}>
+                Send
+            </div>
         </div>
     )
 }

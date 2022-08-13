@@ -12,7 +12,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
     const [requestList, setRequestList] = useState([])
     const [patientNotifications, setPatientNotifications] = useState([])
 
-    const isPatient = true;
+    const isPatient = false;
 
     const typeOfNotificationClicked = (type) => {
         if (type === "consultancyRequest"){
@@ -29,6 +29,9 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
 
             setRequestList(requests)
             setShowRequestModal(true)
+        }
+        else if (type ==="reviewQuesUpdate"){
+            console.log("Redirect to the page where update requests are listed")
         }
     }
     const notificationButtonClicked = () => {
@@ -95,8 +98,8 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                                 </div>
 
                                 <hr className='line-psy' style={{width:"100%"}}></hr>
-                                <div className='task'>
-                                    Task 2
+                                <div className='task' onClick={() => typeOfNotificationClicked("reviewQuesUpdate")}>
+                                    Review Questionnaire Update
                                 </div>
 
                                 <hr className='line-psy' style={{width:"100%"}}></hr>

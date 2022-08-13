@@ -27,6 +27,7 @@
       "description": "Any horrible course of events that are still terrifying you? Find out through our PTSD tests."
     }
   ],
+  
   "questions": [
     {
       "id": 1,
@@ -139,6 +140,23 @@
       "patientId": 103,
       "patientName": "Done",
       "systemScore": "covid"
+    }
+  ],
+
+  "quesReviewRequests" : [
+    {
+      "id": 1,
+      "testName": "PCR",
+      "mode": "Delete",
+      "requestBy": "John",
+      "requestId": 100
+    },
+    {
+      "id": 2,
+      "testName": "HIV",
+      "mode": "Add",
+      "requestBy": "Doe",
+      "requestId": 200
     }
   ],
   "responseBasic": {
@@ -289,6 +307,33 @@
         {"id":3, "datetime":"Wednesday 6pm - 8pm"},
         {"id":4, "datetime":"Friday 5pm - 9pm"}
       ]
+    }
+  ],
+
+  "detailedRequests":[
+    {
+      "id":1,
+      "testName" : "PCR",
+      "requestBy": "John",
+      "mode":"Delete",
+      "quesId":100,
+      "quesBody":"how are you?",
+      "options":[
+        "good", "bad", "nice"
+      ],
+      "reason":"This is backdated"
+    },
+    {
+      "id":2,
+      "testName" : "HIV",
+      "requestBy": "Doe",
+      "mode":"Add",
+      "quesId":200,
+      "quesBody":"What Have you done?",
+      "options":[
+        "gone", "eaten", "played"
+      ],
+      "reason":""
     }
   ]
 }

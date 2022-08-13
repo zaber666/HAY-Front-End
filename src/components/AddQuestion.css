@@ -11,7 +11,7 @@ label{
     line-height: 35px;
     display: flex;
     width: 11%;
-    padding: 5px;
+    padding: 3px;
     border-radius: 20px;
 }
 .add-new-option:hover{
@@ -52,4 +52,18 @@ label{
 
 .cross:hover{
     cursor: pointer;
+}
+.done-btn{
+    margin-top: 2%;
+    margin-left: 30%;
+    padding: 5px;
+    background-color: rgb(111, 105, 120);
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+.done-btn:hover{
+    cursor: pointer;
+    background-color: rgb(52, 49, 56);;
 }

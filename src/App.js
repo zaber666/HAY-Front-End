@@ -15,6 +15,8 @@ import ShowResponse from './components/ShowResponse';
 import VerifiedReports from './VerifiedReports';
 import AddOrDeleteQues from './components/AddOrDeleteQues';
 import AddQuestion from './components/AddQuestion';
+import ListQuesUpdates from './components/ListQuesUpdates';
+import DetailedQuesRequest from './components/DetailedQuesRequest';
 
 function App() {
 
@@ -47,7 +49,9 @@ function App() {
             // <ShowResponse />
             // <VerifiedReports />
             // <AddOrDeleteQues />
-            <AddQuestion />
+            // <AddQuestion />
+            // <ListQuesUpdates />
+            <DetailedQuesRequest />
           } />
 
           <Route path="tests" element={
