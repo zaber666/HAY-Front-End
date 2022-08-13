@@ -91,6 +91,7 @@ function App() {
 
                     {/*<Route path="/upl" element={<Upload/>} />*/}
 
+                    <Route path="/ptests" element={<Tests id={"psychiatrist"} />} />
                     <Route path="/a_d_ques/:testID" element={<RenderAddOrDeleteQuestion />}/>}/>
                     <Route path="/a_ques/:testID" element={<RenderAddQuestion />}/>}/>
 

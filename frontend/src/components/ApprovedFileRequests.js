@@ -59,7 +59,7 @@ const ScoreNDResponse = () => {
                       <td>{response.title}</td>
                       {/* TODO: insert a l
                       ink to */}
-                      { (getIdType() === 'person_id') ?
+                      { (getIdType() === 'patient_id') ?
                       <td><div className='response-text' onClick={() => navigate('/file_request/' + response.file_request_id)}>View Details</div></td>
                       : (
                           getIdType() === 'psychiatrist_id' ?

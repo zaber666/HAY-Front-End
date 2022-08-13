@@ -47,6 +47,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
         }
         else if (type ==="reviewQuesUpdate"){
             console.log("Redirect to the page where update requests are listed")
+
         }
     }
     const notificationButtonClicked = () => {
