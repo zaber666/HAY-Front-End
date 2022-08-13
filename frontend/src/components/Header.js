@@ -9,7 +9,14 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
     const navigate = useNavigate();
     const [showNotificationModal, setShowNotificationModal] = useState(false)
     const [showRequestModal, setShowRequestModal] = useState(false)
+    // const [requestList, setRequestList] = useState([])
+    const [showNotoficationList, setShowNotificationList] = useState(false)
+
+
     const [requestList, setRequestList] = useState([])
+    const [patientNotifications, setPatientNotifications] = useState([])
+
+    const isPatient = false;
 
     const notificationClicked = (type) => {
         if (type === "CR"){
@@ -19,6 +26,44 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
             fetchConsulationRequest().then((requests) => setRequestList(requests.consultation_requests))
             setShowRequestModal(true)
         }
+    }
+
+
+    const typeOfNotificationClicked = (type) => {
+        if (type === "consultancyRequest"){
+            setShowNotificationModal(false)
+
+            // const requests = fetchConsulationRequest(id)
+
+            const requests = [
+                {"id":1, "name":"Zaber", "time":"Sunday 8PM"},
+                {"id":2, "name":"Ifto", "time":"Sunday 8PM"},
+                {"id":3, "name":"Apurba", "time":"Sunday 8PM"},
+                {"id":4, "name":"Fahim", "time":"Sunday 8PM"}
+            ]
+
+            setRequestList(requests)
+            setShowRequestModal(true)
+        }
+        else if (type ==="reviewQuesUpdate"){
+            console.log("Redirect to the page where update requests are listed")
+        }
+    }
+    const notificationButtonClicked = () => {
+        if(isPatient){
+            const notifications = [
+                {"id":1, "text":"Doctor A accepted your counselling request", "time":"Sunday 8PM"},
+                {"id":2, "text":"Doctor B accepted your counselling request", "time":"Sunday 8PM"},
+                {"id":3, "text":"Doctor C accepted your counselling request", "time":"Sunday 8PM"},
+                {"id":4, "text":"Doctor D accepted your counselling request", "time":"Sunday 8PM"}
+            ]
+            setPatientNotifications(notifications)
+            setShowNotificationList(true)
+        }
+        else{
+            setShowNotificationModal(!showNotificationModal)
+        }
+
     }
 
     const fetchConsulationRequest = async () => {
@@ -32,6 +77,8 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
         //const data = await res.json()
         return data
     }
+
+
 
     const acceptConsultationRequest = async (id) => {
         const data = await fetch('/accept_consultation_request/' + id, {
@@ -78,6 +125,10 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
 
                 {loggedIn ? (<div className='rad-box' onClick={() => setShowNotificationModal(!showNotificationModal)}>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
 
+
+                    {/*{loggedIn ? (<div className='rad-box' onClick={() => notificationButtonClicked() }>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}*/}
+
+
                 {/*{loggedIn ? (<div className='rad-box'>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}*/}
             </div>
 
@@ -99,8 +150,8 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                                 </div>
 
                                 <hr className='line-psy' style={{width:"100%"}}></hr>
-                                <div className='task'>
-                                    Task 2
+                                <div className='task' onClick={() => typeOfNotificationClicked("reviewQuesUpdate")}>
+                                    Review Questionnaire Update
                                 </div>
 
                                 <hr className='line-psy' style={{width:"100%"}}></hr>
@@ -146,6 +197,30 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                                 }
                             </div>
 
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                showNotoficationList && (
+                    <div className='modal1'>
+                        <div onClick={() => setShowNotificationList(false)} className="overlay1"></div>
+                        <div className='modal-content2'>
+                            <div className='detailContainer1'>
+                                {
+                                    patientNotifications.map(
+                                        (notification) => (
+                                            <>
+                                                <div className='requestItem'>
+                                                    {notification.text}
+                                                </div>
+                                                <hr className='line-psy' style={{width:"100%"}}></hr>
+                                            </>
+                                        )
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                 )

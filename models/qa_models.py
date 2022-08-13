@@ -5,7 +5,8 @@ TestQuestion = db.Table('test_question',
                         db.Column('test_id', db.Integer, db.ForeignKey('tests.test_id'), primary_key=True),
                         db.Column('question_id', db.Integer, db.ForeignKey('questions.question_id'), primary_key=True),
                         db.Column('is_approved', db.Boolean, default=False),
-                        db.Column('pending_delete', db.Boolean, default=False)
+                        db.Column('pending_delete', db.Boolean, default=False),
+                        db.Column('delete_reasoning', db.String(256))
                         )
 
 
@@ -39,7 +40,7 @@ class Question(db.Model):
 class Option(db.Model):
     __tablename__ = 'options'
     option_id = db.Column(db.Integer, primary_key=True)
-    option_text = db.Column(db.String(256), primary_key=True)
+    option_text = db.Column(db.String(256))
     score = db.Column(db.Integer)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
 

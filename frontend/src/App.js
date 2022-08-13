@@ -20,6 +20,9 @@ import {CreateFileRequest} from "./components/FileRequest";
 import ApprovedFileRequests from "./components/ApprovedFileRequests";
 import {ViewFileRequest} from "./components/ViewFileRequest";
 import {Upload} from "./components/Upload";
+import AddOrDeleteQues from "./components/AddOrDeleteQues";
+import AddQuestion from "./components/AddQuestion";
+import DetailedQuesRequest from "./components/DetailedQuesRequest";
 
 
 
@@ -42,6 +45,18 @@ function App() {
 
     function RenderFileRequest() {
         return <ViewFileRequest frID={useParams().frID} />
+    }
+
+    function RenderAddOrDeleteQuestion() {
+        return <AddOrDeleteQues testID={useParams().testID} />
+    }
+
+    function RenderAddQuestion () {
+        return <AddQuestion testID={useParams().testID} />
+    }
+
+    function RenderDetailedQuesRequest() {
+        return <DetailedQuesRequest testID={useParams().testID} quesID={useParams().quesID} />
     }
 
     return (
@@ -75,6 +90,11 @@ function App() {
                     <Route path="/file_request/:frID" element={<RenderFileRequest />} />
 
                     {/*<Route path="/upl" element={<Upload/>} />*/}
+
+                    <Route path="/a_d_ques/:testID" element={<RenderAddOrDeleteQuestion />}/>}/>
+                    <Route path="/a_ques/:testID" element={<RenderAddQuestion />}/>}/>
+
+                    <Route path="/det/:testID/:quesID" element={<RenderDetailedQuesRequest />} />
                 </Routes>
 
                 <Footer/>

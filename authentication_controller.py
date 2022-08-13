@@ -57,6 +57,7 @@ def is_review_board_member(f):
     @wraps(f)
     def generic_decorator(*args, **kwargs):
         token = None
+        print('Here')
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
             print('Token in generic decorator', token)
@@ -71,7 +72,7 @@ def is_review_board_member(f):
         except:
             print('Token is invalid for Review Board Member')
             return jsonify({'message': 'Token is invalid!'}), 401
-        # print('Returning')
+        print('Returning')
         return f(current_user, *args, **kwargs)
     return generic_decorator
 

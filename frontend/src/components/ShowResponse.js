@@ -145,13 +145,13 @@ const ShowResponse = (props) => {
             { console.log('Props:', props) }
             { responseee &&
             <div>
-                System Report For <b><i>{ responseee.patient_name }</i></b> against <b><i>{responseee.test_name}</i></b>
+                System report for a patient against <b><i>{responseee.test_name}</i></b>
             </div> }
             <hr className='line-psy'></hr>
 
             <div className='section'>Test Questions</div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
-            <div>{responseee.height_inches} {responseee.weight_kgs} {responseee.patient_location} {responseee.score}</div>
+            {/*<div>{responseee.height_inches} {responseee.weight_kgs} {responseee.patient_location} {responseee.score}</div>*/}
 
             {
                 questionAns.map(
@@ -223,7 +223,7 @@ const ShowResponse = (props) => {
 
             <div className='section'>System Score</div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
-            <div className='optionContainer'>{responseee.systemScore}</div>
+            <div className='optionContainer'>{responseee.score}</div>
 
 
             <div className='section'>Add Suggestions</div>

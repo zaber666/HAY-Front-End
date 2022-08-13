@@ -1,9 +1,9 @@
 from email.policy import default
 from ssl import Options
 from venv import create
-from models.qa_models import Question, Option, TestQuestion
-from models.disease_models import TestResultDisease, PsychiatristDisease, Disease
-from models.models import Person
+
+import pseudonym_generator
+from models.export import *
 from flask import request
 import jwt
 from app import app, db
@@ -16,6 +16,7 @@ import random
 @app.route('/test/<test_id>/add_question', methods=['POST'])
 @psychiatrist_token_required
 def add_question(_, test_id):
+    print(request.json)
     question = Question(question_text=request.json['text'], created_at=datetime.now(), is_approved=False)
     db.session.add(question)
     db.session.commit()
@@ -29,6 +30,16 @@ def add_question(_, test_id):
     db.session.execute(stmt)
     db.session.commit()
     return jsonify({"response": 'success'})
+
+
+@app.route('/get_ques/<ques_id>/<test_id>', methods=['GET'])
+def get_ques(ques_id, test_id):
+    test = Test.query.filter_by(test_id=test_id).first()
+    question = Question.query.filter_by(question_id=ques_id).first()
+    options = Option.query.filter_by(question_id=ques_id).all()
+    return jsonify({"quesBody": question.question_text, "options": [opt.option_text for opt in options]
+                       , "mode": "add", "requestBy": pseudonym_generator.get_pseudonym()
+                       , "id": test_id, "testName": test.name})
 
 
 @app.route('/test/<test_id>/get_all_questions', methods=['GET'])
@@ -45,14 +56,15 @@ def get_all_questions(_, test_id):
         q_dict["id"] = result.question_id
         q_dict["options"] = [{"id": x.option_id, "value": x.option_text} for x in result.options]
         all_questions.append(q_dict)
-    return jsonify({"questions": all_questions})
+    test = db.session.query(Test).filter_by(test_id=test_id).first()
+    return jsonify({"questions": all_questions, "name": test.name})
 
 
 @app.route('/test/<test_id>/delete_question/<q_id>', methods=['POST'])
 @psychiatrist_token_required
 def delete_question(_, test_id, q_id):
     stmt = TestQuestion.update().where(TestQuestion.c.test_id == test_id) \
-        .where(TestQuestion.c.question_id == q_id).values(pending_delete=True)
+        .where(TestQuestion.c.question_id == q_id).values(pending_delete=True, delete_reasoning=request.get_json()['reasoning'])
     db.session.execute(stmt)
     db.session.commit()
     return jsonify({"response": 'success'})
@@ -61,11 +73,14 @@ def delete_question(_, test_id, q_id):
 @app.route('/approve_question/<test_id>/<q_id>', methods=['POST'])
 @is_review_board_member
 def approve_question(_, test_id, q_id):
+    print('Starting')
     stmt = TestQuestion.update().where(TestQuestion.c.question_id == q_id). \
         where(TestQuestion.c.test_id == test_id).values(is_approved=True)
     db.session.execute(stmt)
+    print('Midway')
     q = Question.query.filter_by(question_id=q_id).first()
     q.is_approved = True
+    db.session.add(q)
     db.session.commit()
     return jsonify({"response": 'success'})
 

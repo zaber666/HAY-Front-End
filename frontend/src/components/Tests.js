@@ -46,7 +46,8 @@ const Tests = () => {
             {/*<div className="test-name">Self-Rated Level 1 Cross-Cutting Symptom Measure</div>*/}
             {/*<div class="test-desc">Are you experiencing the most common symptoms of autism? Find out using our Autism tests.</div>*/}
 
-
+            <div className='test-name' onClick={() => navigate('/show_verified_reports')}>View Verified Reports</div>
+            <hr className='line'></hr>
             <div className='topic-header spaced'>Specific Questionnaire</div>
             <hr className='line'></hr>
 

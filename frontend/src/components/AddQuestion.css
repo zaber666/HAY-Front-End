@@ -1,0 +1,69 @@
+.ques-body{
+
+}
+label{
+    margin-bottom: 10px;
+}
+.add-new-option{
+    margin-top: 1%;
+    background-color: rgb(150, 146, 146);
+    height: 35px;
+    line-height: 35px;
+    display: flex;
+    width: 11%;
+    padding: 3px;
+    border-radius: 20px;
+}
+.add-new-option:hover{
+    cursor: pointer;
+    background-color: rgb(82, 80, 80);
+}
+.saveNDcancel{
+    display: flex;
+}
+.save{
+    background-color: rgb(213, 210, 210);
+    height: 20px;
+    line-height: 20px;
+    width: 5%;
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 5%;
+}
+.save:hover{
+    cursor: pointer;
+    background-color: rgb(167, 213, 167);
+}
+.cancel{
+    background-color: rgb(213, 210, 210);
+    height: 20px;
+    line-height: 20px;
+    width: 5%;
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 5%;
+}
+.cancel:hover{
+    cursor: pointer;
+    background-color: rgb(195, 153, 153);
+}
+
+.cross:hover{
+    cursor: pointer;
+}
+.done-btn{
+    margin-top: 2%;
+    margin-left: 30%;
+    padding: 5px;
+    background-color: rgb(111, 105, 120);
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+.done-btn:hover{
+    cursor: pointer;
+    background-color: rgb(52, 49, 56);;
+}

@@ -1,3 +1,4 @@
+import pseudonym_generator
 from app import db, app
 from flask import jsonify
 
@@ -9,6 +10,8 @@ def fetch_test_responses():
     FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
         INNER JOIN persons ON persons.person_id = tr.patient_id""")
     result = [dict(x) for x in result.mappings().all()]
+    for res in result:
+        res['patient_name'] = pseudonym_generator.get_pseudonym()
     return result
 
 
