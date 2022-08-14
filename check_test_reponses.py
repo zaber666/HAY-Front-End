@@ -1,5 +1,6 @@
 # from unittest import TestResult
 from email.policy import default
+from sqlalchemy.orm import aliased
 from models.export import *
 from flask import request
 import jwt
@@ -211,3 +212,20 @@ def view_accepted_consultation_request(_):
     return jsonify({"consultation_requests": [{"requestId": x[0].consultation_request_id,
                                                "schedule": x[0].schedule, "method": x[0].method, "fee": x[0].fee,
                                                "info": x[0].info} for x in consultation_requests]})
+
+
+@app.route('/consultation_requests')
+@patient_token_required
+def get_consultation_requests(_):
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    PersonP = aliased(Person)
+    consultation_requests = db.session.query(ConsultationRequest, TestResult, Person, PersonP) \
+        .join(TestResult, ConsultationRequest.test_result_id == TestResult.test_result_id) \
+        .join(Person, Person.person_id == TestResult.patient_id) \
+        .join(PersonP, PersonP.person_id == TestResult.verifier_id) \
+        .filter(Person.person_id == data['patient_id']).filter(ConsultationRequest.approved).all()
+
+    return jsonify({"consultation_requests": [{"id": x[0].consultation_request_id,
+                                               "time": x[0].schedule, "text": "Doctor " + x[-1].name + " has accepted your consultation request." } for x in consultation_requests]})
+
