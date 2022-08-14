@@ -129,3 +129,17 @@ def reject_delete_question(_, test_id, q_id):
     db.session.execute(stmt)
     db.session.commit()
     return jsonify({"response": 'success'})
+
+
+@app.route('/quesReviewRequests', methods=['GET'])
+@is_review_board_member
+def get_ques_review_requests(_):
+    questions = db.session.query(TestQuestion, Test).filter_by(test_id = TestQuestion.c.test_id).filter_by(is_approved=False).all()
+    del_questions = db.session.query(TestQuestion, Test).filter_by(test_id = TestQuestion.c.test_id).filter_by(pending_delete=True).all()
+    file_requests = db.session.query(FileRequest).filter_by(is_verified=False).all()
+    #print(file_requests[0])
+    return jsonify({"questions":
+                    [{"id": x.file_request_id, "testName": x.title, "mode": "file request"} for x in file_requests]
+                    + [{"id": x[1], "testId": x[0], "testName": x[-1].name, "mode": "add"} for x in questions]
+                    + [{"id": x[1], "testId": x[0], "testName": x[-1].name, "mode": "delete", "reasoning": x[4]} for x in del_questions]})
+

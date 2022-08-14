@@ -23,6 +23,7 @@ import {Upload} from "./components/Upload";
 import AddOrDeleteQues from "./components/AddOrDeleteQues";
 import AddQuestion from "./components/AddQuestion";
 import DetailedQuesRequest from "./components/DetailedQuesRequest";
+import ListQuesUpdates from "./components/ListQuesUpdates";
 
 
 
@@ -56,7 +57,7 @@ function App() {
     }
 
     function RenderDetailedQuesRequest() {
-        return <DetailedQuesRequest testID={useParams().testID} quesID={useParams().quesID} />
+        return <DetailedQuesRequest testID={useParams().testID} quesID={useParams().quesID} mode={useParams().mode} />
     }
 
     return (
@@ -94,8 +95,12 @@ function App() {
                     <Route path="/ptests" element={<Tests id={"psychiatrist"} />} />
                     <Route path="/a_d_ques/:testID" element={<RenderAddOrDeleteQuestion />}/>}/>
                     <Route path="/a_ques/:testID" element={<RenderAddQuestion />}/>}/>
+                    <Route path="/list_ques_upd" element={<ListQuesUpdates />} />
 
-                    <Route path="/det/:testID/:quesID" element={<RenderDetailedQuesRequest />} />
+                    <Route path="/det/:testID/:quesID/:mode" element={<RenderDetailedQuesRequest />} />
+
+
+
                 </Routes>
 
                 <Footer/>

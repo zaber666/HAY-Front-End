@@ -43,7 +43,10 @@ const DetailedQuesRequest = (props) => {
     }
 
     const approveQuestion = async (quesID, testID) => {
-        const res = await fetch('/approve_question/' + testID + '/' + quesID,
+        var url_start = '/approve_question/'
+        if(props.mode === "delete")
+            url_start = '/approve_delete_question/'
+        const res = await fetch(url_start + testID + '/' + quesID,
             {
                 method: "POST", headers: {
                     "x-access-token": getToken()
@@ -52,6 +55,23 @@ const DetailedQuesRequest = (props) => {
         const data = await res.json()
         if(data['response'] === 'success') {
             alert("Successfully approved")
+        }
+        return data
+    }
+
+    const rejectQuestion = async (quesID, testID) => {
+        var url_start = '/reject_question/'
+        if(props.mode === "delete")
+            url_start = '/reject_delete_question/'
+        const res = await fetch(url_start + testID + '/' + quesID,
+            {
+                method: "POST", headers: {
+                    "x-access-token": getToken()
+                }
+            })
+        const data = await res.json()
+        if(data['response'] === 'success') {
+            alert("Successfully rejected")
         }
         return data
     }
@@ -66,7 +86,7 @@ const DetailedQuesRequest = (props) => {
                     (request) => (
                         <>
                             <div >
-                                {request.requestBy} has Requested to {request.mode} a question from { request.testName } Test
+                                {request.requestBy} has Requested to {props.mode} a question from { request.testName } Test
                             </div>
                             <hr className='line-psy'></hr>
 
@@ -112,6 +132,11 @@ const DetailedQuesRequest = (props) => {
                                 <div className='done-btn2' onClick={() => approveQuestion(props.quesID, props.testID)}>
                                     Approve
                                 </div>
+
+                                <div className='done-btn2' onClick={() => rejectQuestion(props.quesID, props.testID)}>
+                                    Decline (not functional yet)
+                                </div>
+
                             </div>
                         </>
                         

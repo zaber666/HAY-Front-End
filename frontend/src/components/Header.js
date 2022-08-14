@@ -95,7 +95,8 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                 'x-access-token': localStorage.getItem('token')
             }
         }).then()
-        fetchConsulationRequest() // refresh the list
+        notificationClicked("CR")
+        alert("Patient will be notified")
     }
 
     const deleteConsultationRequest = async (id) => {
