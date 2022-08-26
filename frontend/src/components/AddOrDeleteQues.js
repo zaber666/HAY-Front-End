@@ -4,6 +4,8 @@ import "./AddOrDeleteQues.css"
 import {useState, useEffect} from "react";
 import {FaPlus} from 'react-icons/fa'
 import {useNavigate} from "react-router-dom";
+import IconButton from '@mui/material/IconButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const AddOrDeleteQues = (props) => {
 
@@ -47,6 +49,8 @@ const AddOrDeleteQues = (props) => {
 
     const reasoningGiven = (e) => {
         e.preventDefault()
+        // console.log("reasoning Given")
+        // console.log(deleteReasoning)
         if (!deleteReasoning) {
             alert("Reason Can't be empty !!!")
             return
@@ -90,7 +94,7 @@ const AddOrDeleteQues = (props) => {
                 </h2>
                 <hr className='line-psy'></hr>
 
-                <div className='section'>Test Questions</div>
+                <div className='section'><b>Test Questions</b></div>
                 <hr className='line-psy' style={{width: "30%"}}></hr>
 
                 {
@@ -123,8 +127,7 @@ const AddOrDeleteQues = (props) => {
                 }
 
                 <div className='add-new' onClick={() => navigate('/a_ques/' + props.testID)}>
-                    <FaPlus className='icn'/>
-                    <div>Add New</div>
+                    Add New Question
                 </div>
             </div>
 
@@ -142,10 +145,13 @@ const AddOrDeleteQues = (props) => {
                             </div>
 
                             <div className='input-dlt'>
-                                <form onSubmit={reasoningGiven}>
-                                    <input type="text" placeholder='Enter Reasoning' value={deleteReasoning}
+                                <form >
+                                    <input type="text" placeholder='Enter Reasoning' value={deleteReasoning} style={{width: "70%", marginLeft: "4%", borderRadius: "10px", marginRight: "10%"}}
                                            onChange={(e) => setDeleteReasoning(e.target.value)}/>
-                                    <input type="submit" value="Send"/>
+
+                                    <IconButton aria-label="delete" onClick={reasoningGiven}>
+                                        <SendIcon sx={{color:"#eb7575"}} />
+                                    </IconButton>
                                 </form>
                             </div>
                         </div>

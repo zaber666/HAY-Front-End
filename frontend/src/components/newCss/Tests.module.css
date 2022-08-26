@@ -7,32 +7,34 @@
     margin-top: 1%;
 }
 
-.line-psy{
+.linePsy{
     width: 60%;
     margin-left: 0%;
     margin-top: 1%;
     margin-bottom: 2%;
 }
 
-.test-name {
-    color: #4b8ec4;
+.testName {
+    color: #028dff;
     font-weight: bold;
     font-size: 1.5rem;
     margin-top: 1.5%;
     /* border: 2px solid red; */
 }
-.test-name:hover {
+.testName:hover {
     cursor: pointer;
+    color: #093355;
+    background-color: #cde2f4;
 }
-.test-desc {
+.testDesc {
     font-size: small;
     padding-top: 5px;
 }
-.test-desc:hover {
+.testDesc:hover {
     cursor: pointer;
 }
 
-.tests-body{
+.testsBody{
     font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
     height: 60%;
@@ -41,7 +43,7 @@
     
 }
 
-.topic-header{
+.topicHeader{
     font-size: 1.6rem; 
     font-weight: 500;
 }

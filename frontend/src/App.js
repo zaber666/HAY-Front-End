@@ -24,6 +24,7 @@ import AddOrDeleteQues from "./components/AddOrDeleteQues";
 import AddQuestion from "./components/AddQuestion";
 import DetailedQuesRequest from "./components/DetailedQuesRequest";
 import ListQuesUpdates from "./components/ListQuesUpdates";
+import LoginModalNew from './components/LoginModalNew';
 
 
 
@@ -73,6 +74,8 @@ function App() {
                                                          cngSignupModalFn={() => changeSignupModal(true)}
                                                          closeSignupModalFn={() => changeSignupModal(false)}
                                                          isSignUp={signupModal}/>}/>
+                    
+                    <Route path="/login2" element={<LoginModalNew />} />
 
                     <Route path="/logout" element={<LogoutModal changeLogoutModalFn={() => changeLogoutModal(false)}/>}/>
 
@@ -80,7 +83,7 @@ function App() {
                     <Route path="/tests/:testId" element={<RenderTest/>} />
                     <Route path="/psyhome" element={<PsyHome/>}/>
                     <Route path="/questions" element={<Questions/>}/>
-                    <Route path={"/"} element=<Talks changeModalFn={() => changeLoginModal(true)}/> />
+                    <Route path={"/"} element={<Talks changeModalFn={() => changeLoginModal(true)}/>} />
                     <Route path="/show_verified_reports" element={ <VerifiedReports />} />
 
                     <Route path="/pending_test_results" element={<ScoreNDResponse/>} />
@@ -93,8 +96,8 @@ function App() {
                     {/*<Route path="/upl" element={<Upload/>} />*/}
 
                     <Route path="/ptests" element={<Tests id={"psychiatrist"} />} />
-                    <Route path="/a_d_ques/:testID" element={<RenderAddOrDeleteQuestion />}/>}/>
-                    <Route path="/a_ques/:testID" element={<RenderAddQuestion />}/>}/>
+                    <Route path="/a_d_ques/:testID" element={<RenderAddOrDeleteQuestion />}/>
+                    <Route path="/a_ques/:testID" element={<RenderAddQuestion />}/>
                     <Route path="/list_ques_upd" element={<ListQuesUpdates />} />
 
                     <Route path="/det/:testID/:quesID/:mode" element={<RenderDetailedQuesRequest />} />

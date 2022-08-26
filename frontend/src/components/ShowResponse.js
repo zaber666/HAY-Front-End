@@ -149,7 +149,7 @@ const ShowResponse = (props) => {
             </div> }
             <hr className='line-psy'></hr>
 
-            <div className='section'>Test Questions</div>
+            <div style={{color:"black"}} className='section'><b>Test Questions</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
             {/*<div>{responseee.height_inches} {responseee.weight_kgs} {responseee.patient_location} {responseee.score}</div>*/}
 
@@ -184,7 +184,7 @@ const ShowResponse = (props) => {
                 )
             }
 
-            <div className='section'>Demographic Informations</div>
+            <div style={{color:"black"}} className='section'><b>Demographic Informations</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
 
             <div className='answerHandler'>
@@ -221,15 +221,15 @@ const ShowResponse = (props) => {
             </div>
 
 
-            <div className='section'>System Score</div>
+            <div style={{color:"black"}} className='section'><b>System Score</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
             <div className='optionContainer'>{responseee.score}</div>
 
 
-            <div className='section'>Add Suggestions</div>
+            <div style={{color:"black"}} className='section'><b>Add Suggestions</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
             <div className='commentContainer'>
-                <textarea className='commentInput' rows="5" cols="70" placeholder='Enter Sugesstions' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+                <textarea className='commentInput' style={{width:"500px", height:"100px"}} rows="5" cols="50" placeholder='Enter Sugesstions' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
 
                 {/* <div className="commentBtn" onClick={onCommentPost}>
                     <span className='commentSpan'>Comment</span>
@@ -237,7 +237,7 @@ const ShowResponse = (props) => {
             </div>
 
 
-            <div className='section'>Add Possible Disorder</div>
+            <div style={{color:"black"}} className='section'><b>Add Possible Disorder</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
 
             {

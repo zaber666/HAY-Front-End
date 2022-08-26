@@ -1,22 +1,75 @@
 import React, {useState} from 'react'
 import logo from './logo.png'
-import './Header.css'
+// import './Header.css'
+// import styles from "./Header.css"
 import {FaThumbsUp, FaThumbsDown, FaCheck, FaBan} from 'react-icons/fa'
 import {getIdType, getUsername} from "./Variables";
 import {useNavigate} from "react-router-dom";
+
+
+
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Slide from '@mui/material/Slide';
+import PropTypes from 'prop-types';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import LoginModalNew from './LoginModalNew';
+import SignupModalNew from './SignupModalNew';
+import LogoutModalNew from './LogoutModalNew';
+import NotificationModal from './NotificationModal';
+
+
+function HideOnScroll(props) {
+    const { children, window } = props;
+    const trigger = useScrollTrigger({
+        target: window ? window() : undefined,
+    });
+  
+    return (
+        <Slide appear={false} direction="down" in={!trigger}>
+            {children}
+        </Slide>
+    );
+}
+  
+HideOnScroll.propTypes = {
+    children: PropTypes.element.isRequired,
+    window: PropTypes.func,
+};
+
+
+
 
 const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
     const navigate = useNavigate();
     const [showNotificationModal, setShowNotificationModal] = useState(false)
     const [showRequestModal, setShowRequestModal] = useState(false)
-    // const [requestList, setRequestList] = useState([])
-    const [showNotoficationList, setShowNotificationList] = useState(false)
+    const [showNotificationList, setShowNotificationList] = useState(false)
 
 
     const [requestList, setRequestList] = useState([])
     const [patientNotifications, setPatientNotifications] = useState([])
 
     //const [isPatient, setIsPatient] = useState(false)
+
+    const [loginModalActive, setLoginModalActive] = useState(false);
+    const [signUpModalActive, setSignUpModalActive] = useState(false);
+    const [logoutModalActive, setLogoutModalActive] = useState(false);
+
 
     const notificationClicked = (type) => {
         if (type === "CR") {
@@ -111,16 +164,40 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
         window.location.reload()
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
     return (
         <>
-            <div className='header'>
+            {/*<div className='header'>
                 <div style={{width: "30%"}}>
                     <img src={logo} className="header-logo" alt="logo"/>
                 </div>
 
                 <div style={{width: "40%"}}>
                     <nav>
-                        <ul class="nav-links">
+                        <ul className="nav-links">
                             <li>Home</li>
                             <li>Trends and Statistics</li>
                             <li>About Us</li>
@@ -139,16 +216,143 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                         <div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
 
 
-                    {/*{loggedIn ? (<div className='rad-box' onClick={() => notificationButtonClicked() }>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}*/}
+                    {loggedIn ? (<div className='rad-box' onClick={() => notificationButtonClicked() }>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
 
 
-                    {/*{loggedIn ? (<div className='rad-box'>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}*/}
+                    {loggedIn ? (<div className='rad-box'>NOTIFICATION</div>) : (<div className='rad-box' onClick={changeLoginModalFn}> TAKE A MENTAL HEALTH TEST</div>)}
                 </div>
 
-            </div>
+            </div>*/}
 
+            <HideOnScroll >
+            <AppBar position="sticky" enableColorOnDark={true} sx={{bgcolor:"#ffffff"}}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        
+                        <img src={logo} style={{borderRadius:0, height:"70px", width:"200px", marginBottom:0}} />
+
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, }}>
+                            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{vertical: 'bottom',horizontal: 'left',}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'left',}} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{display: { xs: 'block', md: 'none' },}}>
+                            
+                                <MenuItem key="PRODUCTS" onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center" >PRODUCTS</Typography>
+                                </MenuItem> 
+
+                                <MenuItem key="PRICING" onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">PRICING</Typography>
+                                </MenuItem>   
+
+                                <MenuItem key="BLOG" onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">BLOG</Typography>
+                                </MenuItem>     
+              
+                            </Menu>
+                        </Box>
+
+                        <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                        <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none',}}>
+                            LOGO
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml:10 }}>             
+                            <Button key="PRODUCTS" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                                Home
+                            </Button>
+                            <Button key="PRICING" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                                Trends
+                            </Button>
+                            <Button key="BLOG" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                                About Us
+                            </Button>
+            
+                        </Box>
+
+                        <Box sx={{ flexGrow: 0 }}>
+
+                            {loggedIn ? 
+                                (
+                                    <>
+                                        <Tooltip>
+                                            {showNotificationList ? 
+                                                (
+                                                    <>
+                                                        <IconButton size="large" aria-label="new notifications" color="inherit" onClick={() => {setShowNotificationList(true)}} sx={{bgcolor:"#b5b5b5"}}>
+                                                            <Badge badgeContent={17} color="error">
+                                                                <NotificationsIcon color='secondary' />
+                                                            </Badge>
+                                                        </IconButton>
+                                                    </>
+                                                ): 
+                                                (
+                                                    <>
+                                                        <IconButton size="large" aria-label="new notifications" color="inherit" onClick={() => {setShowNotificationList(true)}}>
+                                                            <Badge badgeContent={17} color="error">
+                                                                <NotificationsIcon color='secondary' />
+                                                            </Badge>
+                                                        </IconButton>
+                                                    </>
+                                                )
+                                            }
+                                            
+                                        </Tooltip>
+
+                                        <Tooltip title="Open settings" >
+                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml:5 }}>
+                                                <Avatar sx={{border:2, borderColor:"black", bgcolor:"#329599"}}>{getUsername().charAt(0)}</Avatar>
+                                            </IconButton>
+                                        </Tooltip>
+                                    </>
+                                ):
+                                (
+                                    <Button onClick={() => {setLoginModalActive(true)}} key="takeTest" sx={{ my: 2, color: 'black', display: 'block', '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                                        Sign In
+                                    </Button> 
+                                )
+                            }
+
+                            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right',}} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
+                      
+                                <MenuItem key="Profile" onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">Profile</Typography>
+                                </MenuItem>
+                                <MenuItem key="Logout" onClick={() => {handleCloseUserMenu(); setLogoutModalActive(true); }}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>
+              
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            </HideOnScroll>
+            
+            {
+                loginModalActive && (
+                    <LoginModalNew  loginModalOff={()=> setLoginModalActive(false)} signUpModalOn={()=> setSignUpModalActive(true)} />
+                )
+            }
 
             {
+                signUpModalActive && (
+                    <SignupModalNew loginModalOn={() => setLoginModalActive(true)} signUpModalOff={() => setSignUpModalActive(false)}/>
+                )
+            }
+
+            {
+                logoutModalActive && (
+                    <LogoutModalNew logoutModalOff={() => setLogoutModalActive(false)} />
+                )
+            }
+
+            {
+                showNotificationList && (
+                    <NotificationModal notificationModalOff={() => {setShowNotificationList(false)}} />
+                )
+            }
+
+            {/* {
                 showNotificationModal && (
                     <div className='modal1'>
                         <div onClick={() => setShowNotificationModal(false)} className="overlay1"></div>
@@ -182,7 +386,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                         </div>
                     </div>
                 )
-            }
+            } */}
 
             {
                 showRequestModal && (
@@ -222,7 +426,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                 )
             }
 
-            {
+            {/* {
                 showNotoficationList && (
                     <div className='modal1'>
                         <div onClick={() => setShowNotificationList(false)} className="overlay1"></div>
@@ -244,7 +448,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                         </div>
                     </div>
                 )
-            }
+            } */}
         </>
 
     )
